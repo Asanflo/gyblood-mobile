@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="GyBlood.Mobile.Views.Shells.PatientShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Patient"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource Primary}"
+       Shell.ForegroundColor="{StaticResource White}"
+       Shell.TitleColor="{StaticResource White}"
+       Shell.TabBarBackgroundColor="{StaticResource White}"
+       Shell.TabBarForegroundColor="{StaticResource Primary}"
+       Shell.TabBarTitleColor="{StaticResource Primary}"
+       Shell.TabBarUnselectedColor="{StaticResource Gray500}">
+
+  <TabBar>
+    <ShellContent Title="Stocks" Route="patient-stocks" ContentTemplate="{DataTemplate pages:StocksPage}" />
+    <ShellContent Title="Carte" Route="patient-map" ContentTemplate="{DataTemplate pages:DonorMapPage}" />
+    <ShellContent Title="Rendez-vous" Route="patient-appointments" ContentTemplate="{DataTemplate pages:MyAppointmentsPage}" />
+    <ShellContent Title="Profil" Route="patient-profile" ContentTemplate="{DataTemplate pages:PatientProfilePage}" />
+  </TabBar>
+
+</Shell>

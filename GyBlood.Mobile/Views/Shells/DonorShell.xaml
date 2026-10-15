@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="GyBlood.Mobile.Views.Shells.DonorShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Donor"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource Primary}"
+       Shell.ForegroundColor="{StaticResource White}"
+       Shell.TitleColor="{StaticResource White}"
+       Shell.TabBarBackgroundColor="{StaticResource White}"
+       Shell.TabBarForegroundColor="{StaticResource Primary}"
+       Shell.TabBarTitleColor="{StaticResource Primary}"
+       Shell.TabBarUnselectedColor="{StaticResource Gray500}">
+
+  <TabBar>
+    <ShellContent Title="Demandes" Route="donor-requests" ContentTemplate="{DataTemplate pages:RequestsPage}" />
+    <ShellContent Title="Campagnes" Route="donor-campaigns" ContentTemplate="{DataTemplate pages:DonorCampaignsPage}" />
+    <ShellContent Title="Historique" Route="donor-history" ContentTemplate="{DataTemplate pages:DonationHistoryPage}" />
+    <ShellContent Title="Profil" Route="donor-profile" ContentTemplate="{DataTemplate pages:DonorProfilePage}" />
+  </TabBar>
+
+</Shell>

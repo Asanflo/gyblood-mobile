@@ -1,0 +1,16 @@
+# .NET / MAUI
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Secrets : ne jamais versionner
+**/google-services.json
+**/appsettings.local.json
+.env

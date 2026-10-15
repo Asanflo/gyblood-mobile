@@ -1,0 +1,6 @@
+{
+  "_comment": "Copiez ce fichier en google-services.json et remplacez-le par celui de la console Firebase. Le vrai fichier est ignoré par Git.",
+  "project_info": { "project_number": "000000000000", "project_id": "gyblood-demo" },
+  "client": [],
+  "configuration_version": "1"
+}

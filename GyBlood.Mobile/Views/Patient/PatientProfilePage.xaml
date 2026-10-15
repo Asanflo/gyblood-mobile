@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Patient"
+             x:Class="GyBlood.Mobile.Views.Patient.PatientProfilePage"
+             x:DataType="vm:PatientProfileViewModel"
+             Title="Mon profil">
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="12">
+      <Label Text="Mon profil" Style="{StaticResource Heading}" />
+      <Label Text="Groupe sanguin, rhésus et position (GPS ou point posé sur la carte). (US-11)" TextColor="{StaticResource Gray600}" />
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

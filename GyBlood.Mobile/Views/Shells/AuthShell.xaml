@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="GyBlood.Mobile.Views.Shells.AuthShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:auth="clr-namespace:GyBlood.Mobile.Views.Auth"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False">
+
+  <ShellContent Route="login" ContentTemplate="{DataTemplate auth:LoginPage}" />
+  <ShellContent Route="pending" ContentTemplate="{DataTemplate auth:PendingAccountPage}" />
+
+</Shell>

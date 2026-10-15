@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Sponsor"
+             x:Class="GyBlood.Mobile.Views.Sponsor.SponsorCampaignsPage"
+             x:DataType="vm:SponsorCampaignsViewModel"
+             Title="Campagnes">
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="12">
+      <Label Text="Campagnes" Style="{StaticResource Heading}" />
+      <Label Text="Campagnes à financer avec objectif et fonds reçus. (US-41)" TextColor="{StaticResource Gray600}" />
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

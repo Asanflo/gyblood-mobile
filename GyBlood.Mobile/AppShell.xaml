@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="GyBlood.Mobile.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:shared="clr-namespace:GyBlood.Mobile.Views.Shared"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False">
+
+  <!-- Écran de démarrage : restaure la session puis remplace ce Shell par celui du rôle connecté. -->
+  <ShellContent Route="startup" ContentTemplate="{DataTemplate shared:StartupPage}" />
+
+</Shell>
