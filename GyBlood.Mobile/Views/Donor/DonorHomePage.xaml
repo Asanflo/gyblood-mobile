@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Donor"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Donor.DonorHomePage"
+             x:DataType="vm:DonorHomeViewModel"
+             Title="Accueil"
+             Shell.NavBarIsVisible="False">
+  <ScrollView>
+    <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
+
+      <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+          <Label Text="{Binding Greeting}" Style="{StaticResource Heading}" FontSize="22" />
+          <Label Text="Merci de sauver des vies" TextColor="{StaticResource Primary}" FontSize="13" />
+        </VerticalStackLayout>
+        <Border Grid.Column="1" WidthRequest="40" HeightRequest="40" StrokeThickness="0"
+                StrokeShape="RoundRectangle 20" BackgroundColor="{StaticResource PrimaryLight}" VerticalOptions="Center">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenNotificationsCommand}" />
+          </Border.GestureRecognizers>
+          <Image Source="icon_bell" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <Border Grid.Column="2" WidthRequest="40" HeightRequest="40" StrokeThickness="0"
+                StrokeShape="RoundRectangle 20" BackgroundColor="{StaticResource PrimaryLight}" VerticalOptions="Center">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+          </Border.GestureRecognizers>
+          <Image Source="icon_user" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+      </Grid>
+
+      <!-- Bandeau : prochain don possible -->
+      <Border Style="{StaticResource Banner}">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+          <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+            <Label Text="{Binding BannerTitle}" TextColor="{StaticResource White}" FontAttributes="Bold" FontSize="18" />
+            <Label Text="{Binding BannerSubtitle}" TextColor="{StaticResource White}" FontSize="13" />
+          </VerticalStackLayout>
+          <Image Grid.Column="1" Source="icon_drop" WidthRequest="44" HeightRequest="44" Aspect="AspectFit" VerticalOptions="Center" />
+        </Grid>
+      </Border>
+
+      <!-- Profil à compléter -->
+      <Border Style="{StaticResource SoftCard}" IsVisible="{Binding ProfileIncomplete}">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+        </Border.GestureRecognizers>
+        <VerticalStackLayout Spacing="2">
+          <Label Text="Complétez votre profil" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+          <Label Text="Groupe sanguin, antécédents et justificatif : nécessaires pour être validé." Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+      </Border>
+
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+        <controls:ActionTile Grid.Row="0" Grid.Column="0" Icon="action_requests" Title="Demandes" Subtitle="{Binding RequestsText}" Command="{Binding OpenRequestsCommand}" />
+        <controls:ActionTile Grid.Row="0" Grid.Column="1" Icon="action_availability" Title="Disponibilité" Subtitle="{Binding AvailabilityText}" Command="{Binding OpenAvailabilityCommand}" />
+        <controls:ActionTile Grid.Row="1" Grid.Column="0" Icon="action_campaign" Title="Campagnes" Subtitle="Près de chez vous" Command="{Binding OpenCampaignsCommand}" />
+        <controls:ActionTile Grid.Row="1" Grid.Column="1" Icon="action_history" Title="Mon activité" Subtitle="Mes dons" Command="{Binding OpenHistoryCommand}" />
+      </Grid>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

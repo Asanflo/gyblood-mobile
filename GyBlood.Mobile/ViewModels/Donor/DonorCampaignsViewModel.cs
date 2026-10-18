@@ -1,18 +1,15 @@
-using GyBlood.Mobile.ViewModels.Base;
+using GyBlood.Mobile.Services.Api;
+using GyBlood.Mobile.Services.Navigation;
+using GyBlood.Mobile.ViewModels.Shared;
 
 namespace GyBlood.Mobile.ViewModels.Donor;
 
-/// <summary>Campagnes : Campagnes ouvertes et campagnes auxquelles j'ai adhéré. (US-25)</summary>
-public partial class DonorCampaignsViewModel : BaseViewModel
+/// <summary>Campagnes vues par le donneur (celles où il est inscrit portent la mention « Inscrit »). (US-28)</summary>
+public sealed class DonorCampaignsViewModel : CampaignListViewModelBase
 {
-    public DonorCampaignsViewModel()
+    public DonorCampaignsViewModel(ICampaignApi api, INavigationService navigation)
+        : base(api, navigation)
     {
         Title = "Campagnes";
-    }
-
-    public override Task OnAppearingAsync()
-    {
-        // À FAIRE : charger les données via le service ou l'interface Refit concernée.
-        return Task.CompletedTask;
     }
 }

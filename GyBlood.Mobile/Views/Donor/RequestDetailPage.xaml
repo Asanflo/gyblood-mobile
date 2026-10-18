@@ -2,15 +2,41 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Donor"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Donor.RequestDetailPage"
              x:DataType="vm:RequestDetailViewModel"
-             Title="Détail d'une demande">
+             Title="Demande de don"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Détail d'une demande" Style="{StaticResource Heading}" />
-      <Label Text="Informations du patient et boutons accepter / refuser. (US-23)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Label Text="Un patient a besoin de vous" Style="{StaticResource Heading}" />
+      <controls:StatusChip Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" />
+
+      <Border Style="{StaticResource Card}">
+        <VerticalStackLayout Spacing="10">
+          <VerticalStackLayout Spacing="2">
+            <Label Text="Lieu du don" Style="{StaticResource Caption}" />
+            <Label Text="{Binding StructureName}" FontAttributes="Bold" />
+          </VerticalStackLayout>
+          <VerticalStackLayout Spacing="2">
+            <Label Text="Date et heure" Style="{StaticResource Caption}" />
+            <Label Text="{Binding DateText}" FontAttributes="Bold" />
+          </VerticalStackLayout>
+          <VerticalStackLayout Spacing="2" IsVisible="{Binding HasFee}">
+            <Label Text="Frais d'examens payés par le patient" Style="{StaticResource Caption}" />
+            <Label Text="{Binding FeeText}" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+          </VerticalStackLayout>
+        </VerticalStackLayout>
+      </Border>
+
+      <Label Text="Pour votre sécurité, l'identité du patient n'est pas communiquée." Style="{StaticResource Caption}" />
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+
+      <Button Text="Accepter" Command="{Binding AcceptCommand}" IsVisible="{Binding CanRespond}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Refuser" Command="{Binding DeclineCommand}" IsVisible="{Binding CanRespond}" IsEnabled="{Binding IsNotBusy}" Style="{StaticResource OutlineButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

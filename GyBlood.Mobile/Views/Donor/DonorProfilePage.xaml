@@ -2,15 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Donor"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Donor.DonorProfilePage"
              x:DataType="vm:DonorProfileViewModel"
-             Title="Mon profil de donneur">
+             Title="Profil"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Mon profil de donneur" Style="{StaticResource Heading}" />
-      <Label Text="Identité, antécédents, document de groupe sanguin, statut de validation. (US-20, US-21)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Image Source="avatar_donor" WidthRequest="88" HeightRequest="88" Aspect="AspectFit" HorizontalOptions="Center" />
+      <controls:StatusChip Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" HorizontalOptions="Center" />
+
+      <controls:FormField Header="Adresse email" Text="{Binding Email}" IsReadOnly="True" />
+
+      <Label Text="Informations médicales" Style="{StaticResource SectionTitle}" Margin="0,8,0,0" />
+      <controls:FormField Header="Nom complet" IsRequired="True" Placeholder="Votre nom" Text="{Binding FullName}" />
+      <controls:PickerField Header="Sexe" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding SexChoices}" SelectedItem="{Binding SelectedSex}" />
+      <controls:PickerField Header="Groupe sanguin" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding GroupChoices}" SelectedItem="{Binding SelectedGroup}" />
+      <controls:PickerField Header="Rhésus" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding RhesusChoices}" SelectedItem="{Binding SelectedRhesus}" />
+      <controls:FormField Header="Téléphone" Placeholder="6XXXXXXXX" KeyboardType="Telephone" MaxLength="9" Text="{Binding Phone}" />
+
+      <VerticalStackLayout Spacing="6">
+        <Label Text="Antécédents médicaux" FontSize="13" FontAttributes="Bold" />
+        <Border Style="{StaticResource FieldBorder}">
+          <Editor Text="{Binding MedicalHistory}" Placeholder="Maladies, traitements, allergies…" AutoSize="TextChanges" MinimumHeightRequest="90" />
+        </Border>
+      </VerticalStackLayout>
+
+      <VerticalStackLayout Spacing="6">
+        <Label Text="Justificatif de groupe sanguin" FontSize="13" FontAttributes="Bold" />
+        <Border Style="{StaticResource SoftCard}">
+          <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <!-- IMAGE : icône document -->
+            <controls:ImageFrame WidthRequest="40" HeightRequest="40" Caption="PDF" CornerRadius="8" />
+            <Label Grid.Column="1" Text="{Binding DocumentText}" VerticalOptions="Center" LineBreakMode="MiddleTruncation" />
+            <Button Grid.Column="2" Text="Choisir" Command="{Binding PickDocumentCommand}" Style="{StaticResource SmallOutlineButton}" />
+          </Grid>
+        </Border>
+        <Label Text="PDF ou image, 5 Mo maximum. Visible uniquement par l'administration." Style="{StaticResource Caption}" />
+      </VerticalStackLayout>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Valider" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Se déconnecter" Command="{Binding LogoutCommand}" Style="{StaticResource LinkButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

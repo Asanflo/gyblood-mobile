@@ -4,13 +4,40 @@
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Donor"
              x:Class="GyBlood.Mobile.Views.Donor.AvailabilityPage"
              x:DataType="vm:AvailabilityViewModel"
-             Title="Disponibilité">
+             Title="Disponibilité"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Disponibilité" Style="{StaticResource Heading}" />
-      <Label Text="Interrupteur « disponible » et consentement à la géolocalisation. (US-27)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Label Text="Êtes-vous disponible pour donner ?" Style="{StaticResource Heading}" />
+
+      <Border Style="{StaticResource Card}">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+          <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+            <Label Text="Je suis disponible" FontAttributes="Bold" />
+            <Label Text="Vous pouvez recevoir des demandes de don." Style="{StaticResource Caption}" />
+          </VerticalStackLayout>
+          <Switch Grid.Column="1" IsToggled="{Binding IsAvailable}" />
+        </Grid>
+      </Border>
+
+      <Border Style="{StaticResource Card}">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+          <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+            <Label Text="Partager ma position" FontAttributes="Bold" />
+            <Label Text="Nécessaire pour apparaître sur la carte des patients." Style="{StaticResource Caption}" />
+          </VerticalStackLayout>
+          <Switch Grid.Column="1" IsToggled="{Binding ShareLocation}" />
+        </Grid>
+      </Border>
+
+      <Border Style="{StaticResource SoftCard}">
+        <Label Text="{Binding Hint}" Style="{StaticResource Subtitle}" />
+      </Border>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Enregistrer" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>
