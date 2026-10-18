@@ -2,15 +2,34 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Patient"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Patient.PatientProfilePage"
              x:DataType="vm:PatientProfileViewModel"
-             Title="Mon profil">
+             Title="Profil"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Mon profil" Style="{StaticResource Heading}" />
-      <Label Text="Groupe sanguin, rhésus et position (GPS ou point posé sur la carte). (US-11)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Image Source="avatar_donor" WidthRequest="88" HeightRequest="88" Aspect="AspectFit" HorizontalOptions="Center" />
+
+      <controls:FormField Header="Adresse email" Text="{Binding Email}" IsReadOnly="True" />
+
+      <Label Text="Informations médicales" Style="{StaticResource SectionTitle}" Margin="0,8,0,0" />
+      <controls:PickerField Header="Groupe sanguin" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding GroupChoices}" SelectedItem="{Binding SelectedGroup}" />
+      <controls:PickerField Header="Rhésus" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding RhesusChoices}" SelectedItem="{Binding SelectedRhesus}" />
+
+      <Border Style="{StaticResource SoftCard}">
+        <VerticalStackLayout Spacing="8">
+          <Label Text="Ma position" FontAttributes="Bold" />
+          <Label Text="{Binding LocationText}" Style="{StaticResource Subtitle}" />
+          <Button Text="Utiliser ma position" Command="{Binding UseMyLocationCommand}" Style="{StaticResource SmallOutlineButton}" />
+        </VerticalStackLayout>
+      </Border>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Enregistrer" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Se déconnecter" Command="{Binding LogoutCommand}" Style="{StaticResource LinkButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

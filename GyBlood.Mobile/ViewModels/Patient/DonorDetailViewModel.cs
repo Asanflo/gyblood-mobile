@@ -1,31 +1,43 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GyBlood.Mobile.Core.Constants;
+using GyBlood.Mobile.Core.Helpers;
+using GyBlood.Mobile.Services.Navigation;
 using GyBlood.Mobile.ViewModels.Base;
+using GyBlood.Mobile.ViewModels.Items;
 
 namespace GyBlood.Mobile.ViewModels.Patient;
 
-/// <summary>Détail d'un donneur : Nom, groupe, rhésus, distance et bouton « Demander un don ». (US-13)</summary>
-public partial class DonorDetailViewModel : BaseViewModel, IQueryAttributable
+/// <summary>Fiche d'un donneur : nom, groupe, distance (rien de plus, RG3). Reçoit le donneur par la navigation.</summary>
+[QueryProperty(nameof(Donor), "donor")]
+public partial class DonorDetailViewModel : BaseViewModel
 {
+    private readonly INavigationService _navigation;
+
     [ObservableProperty]
-    private EntityId? itemId;
+    [NotifyPropertyChangedFor(nameof(Name), nameof(BloodText), nameof(DistanceText))]
+    private DonorDto? donor;
 
-    public DonorDetailViewModel()
+    public DonorDetailViewModel(INavigationService navigation)
     {
-        Title = "Détail d'un donneur";
+        _navigation = navigation;
+        Title = "Donneur";
     }
 
-    /// <summary>Reçoit ?id=... depuis la navigation (voir INavigationService.GoToAsync).</summary>
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    public string Name => Donor?.FullName ?? string.Empty;
+
+    public string BloodText => Donor is null ? string.Empty : BloodCompatibility.Format(Donor.BloodGroup, Donor.Rhesus);
+
+    public string DistanceText => Donor is null ? string.Empty : $"À {Ui.Distance(Donor.DistanceKm)} de vous";
+
+    [RelayCommand]
+    private async Task RequestDonationAsync()
     {
-        if (query.TryGetValue("id", out var value) && EntityId.TryParse(value?.ToString(), out var id))
+        if (Donor is null)
         {
-            ItemId = id;
+            return;
         }
-    }
 
-    public override Task OnAppearingAsync()
-    {
-        // À FAIRE : charger les données via le service ou l'interface Refit concernée.
-        return Task.CompletedTask;
+        await _navigation.GoToAsync(AppRoutes.BookAppointment, new Dictionary<string, object> { ["donor"] = Donor });
     }
 }

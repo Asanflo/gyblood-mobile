@@ -2,15 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Patient"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
              xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Patient.DonorMapPage"
              x:DataType="vm:DonorMapViewModel"
-             Title="Carte des donneurs">
+             Title="Carte des donneurs"
+             Shell.NavBarIsVisible="True">
   <Grid RowDefinitions="Auto,*">
-    <VerticalStackLayout Grid.Row="0" Padding="12" Spacing="4">
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
-      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+    <!-- Rayon de recherche et résumé -->
+    <VerticalStackLayout Grid.Row="0" Padding="16,10,16,10" Spacing="8">
+      <Grid ColumnDefinitions="*,*,Auto" ColumnSpacing="8">
+        <controls:PickerField Grid.Column="0" Header="Groupe recherché" Title="Groupe" ItemsSource="{Binding GroupChoices}" SelectedItem="{Binding SelectedGroup}" />
+        <controls:PickerField Grid.Column="1" Header="Rhésus" Title="Rhésus" ItemsSource="{Binding RhesusChoices}" SelectedItem="{Binding SelectedRhesus}" />
+        <Button Grid.Column="2" Text="Chercher" Command="{Binding SearchCommand}" IsEnabled="{Binding IsNotBusy}" Style="{StaticResource SmallButton}" VerticalOptions="End" />
+      </Grid>
+      <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
+        <Button Grid.Column="0" Text="5 km" Command="{Binding SetRadiusCommand}" CommandParameter="5" Style="{StaticResource SmallOutlineButton}" />
+        <Button Grid.Column="1" Text="10 km" Command="{Binding SetRadiusCommand}" CommandParameter="10" Style="{StaticResource SmallOutlineButton}" />
+        <Button Grid.Column="2" Text="15 km" Command="{Binding SetRadiusCommand}" CommandParameter="15" Style="{StaticResource SmallOutlineButton}" />
+        <Button Grid.Column="3" Text="20 km" Command="{Binding SetRadiusCommand}" CommandParameter="20" Style="{StaticResource SmallOutlineButton}" />
+      </Grid>
+      <Label Text="{Binding Summary}" Style="{StaticResource Subtitle}" />
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
     </VerticalStackLayout>
-    <controls:DonorMapView Grid.Row="1" />
+
+    <!-- Carte + carrousel des donneurs en bas (comme la fiche « Besoin de O+ » des maquettes) -->
+    <Grid Grid.Row="1">
+      <controls:DonorMapView x:Name="Map" />
+      <CollectionView ItemsSource="{Binding Donors}"
+                      IsVisible="{Binding HasDonors}"
+                      VerticalOptions="End"
+                      HeightRequest="140"
+                      Margin="0,0,0,12"
+                      ItemsLayout="HorizontalList"
+                      HorizontalScrollBarVisibility="Never">
+        <CollectionView.ItemTemplate>
+          <DataTemplate x:DataType="items:DonorItem">
+            <controls:DonorCard Margin="12,0,0,0" />
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,12,0,0" />
+    </Grid>
   </Grid>
 </ContentPage>
