@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 160 160" fill="none">
+  <circle cx="80" cy="80" r="76" fill="#FDECEC"/>
+  <circle cx="80" cy="80" r="60" fill="#FADADA"/>
+  <!-- cadre du sablier -->
+  <rect x="50" y="34" width="60" height="8" rx="4" fill="#D50000"/>
+  <rect x="50" y="118" width="60" height="8" rx="4" fill="#D50000"/>
+  <!-- verre -->
+  <path d="M56 42 H104 C104 66 92 74 86 80 C92 86 104 94 104 118 H56 C56 94 68 86 74 80 C68 74 56 66 56 42 Z"
+        fill="#FFFFFF" stroke="#D50000" stroke-width="4" stroke-linejoin="round"/>
+  <!-- sable du haut -->
+  <path d="M64 46 H96 C94 60 88 66 82 72 H78 C72 66 66 60 64 46 Z" fill="#D50000" opacity="0.85"/>
+  <!-- filet de sable -->
+  <rect x="79" y="72" width="2" height="30" fill="#D50000"/>
+  <!-- sable du bas -->
+  <path d="M64 114 C66 104 72 98 80 96 C88 98 94 104 96 114 Z" fill="#D50000" opacity="0.85"/>
+  <!-- petite goutte -->
+  <path d="M124 40 C124 40 116 50 116 55 C116 60 119.5 63 124 63 C128.5 63 132 60 132 55 C132 50 124 40 124 40 Z" fill="#D50000"/>
+</svg>

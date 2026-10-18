@@ -25,6 +25,9 @@ public sealed class AuthService : IAuthService
 
     public async Task<UserDto> RegisterAsync(string email, string password, UserRole role)
         => await StoreAsync(await _authApi.RegisterAsync(new RegisterRequest(email, password, role)));
+    
+    public async Task<UserDto> RegisterAsync(string email, string password, UserRole role, string? displayName = null)
+    => await StoreAsync(await _authApi.RegisterAsync(new RegisterRequest(email, password, role, displayName)));
 
     /// <summary>
     /// Connexion Google avec PKCE : l'application garde un verifier secret et n'envoie que son empreinte (challenge).

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Structure"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Structure.StructureDashboardPage"
+             x:DataType="vm:StructureDashboardViewModel"
+             Title="Accueil"
+             Shell.NavBarIsVisible="False">
+  <RefreshView Command="{Binding LoadCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+    <ScrollView>
+      <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
+
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+          <!-- IMAGE : logo de la structure -->
+          <controls:ImageFrame WidthRequest="48" HeightRequest="48" Caption="Logo" CornerRadius="24">
+            <controls:ImageFrame.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+            </controls:ImageFrame.GestureRecognizers>
+          </controls:ImageFrame>
+          <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+            <Label Text="{Binding StructureName}" Style="{StaticResource Heading}" FontSize="20" LineBreakMode="TailTruncation" />
+            <Label Text="Banque de sang" Style="{StaticResource Caption}" />
+          </VerticalStackLayout>
+          <!-- IMAGE : icône cloche (notifications) -->
+          <controls:ImageFrame Grid.Column="2" WidthRequest="38" HeightRequest="38" Caption="🔔" CornerRadius="19">
+            <controls:ImageFrame.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OpenNotificationsCommand}" />
+            </controls:ImageFrame.GestureRecognizers>
+          </controls:ImageFrame>
+        </Grid>
+
+        <Border Style="{StaticResource SoftCard}" IsVisible="{Binding ProfileIncomplete}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+          </Border.GestureRecognizers>
+          <VerticalStackLayout Spacing="2">
+            <Label Text="Complétez le profil de la structure" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            <Label Text="Nom, adresse, téléphone et position sont nécessaires pour être validé." Style="{StaticResource Caption}" />
+          </VerticalStackLayout>
+        </Border>
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+          <controls:ActionTile Grid.Column="0" Title="Stocks" Subtitle="Mettre à jour" Command="{Binding OpenStocksCommand}" />
+          <controls:ActionTile Grid.Column="1" Title="Événements" Subtitle="Mes campagnes" Command="{Binding OpenEventsCommand}" />
+        </Grid>
+
+        <Border Style="{StaticResource Banner}">
+          <VerticalStackLayout Spacing="2">
+            <Label Text="Total en stock" TextColor="{StaticResource White}" FontSize="13" />
+            <Label Text="{Binding TotalText}" TextColor="{StaticResource White}" FontAttributes="Bold" FontSize="26" />
+            <Label Text="{Binding UpdatedText}" TextColor="{StaticResource White}" FontSize="12" />
+          </VerticalStackLayout>
+        </Border>
+
+        <Label Text="Stocks par groupe sanguin" Style="{StaticResource SectionTitle}" />
+        <FlexLayout BindableLayout.ItemsSource="{Binding Cells}" Wrap="Wrap" JustifyContent="SpaceBetween">
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="items:StockCell">
+              <Border Style="{StaticResource SoftCard}" WidthRequest="72" Padding="6,10" Margin="0,0,0,10">
+                <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                  <Label Text="{Binding BloodText}" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" />
+                  <Label Text="{Binding QuantityText}" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
+                </VerticalStackLayout>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </FlexLayout>
+
+        <Button Text="Mettre à jour les stocks" Command="{Binding OpenStocksCommand}" />
+        <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      </VerticalStackLayout>
+    </ScrollView>
+  </RefreshView>
+</ContentPage>

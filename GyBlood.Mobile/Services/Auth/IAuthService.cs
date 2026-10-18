@@ -6,7 +6,7 @@ public interface IAuthService
 
     Task<UserDto> LoginAsync(string email, string password);
 
-    Task<UserDto> RegisterAsync(string email, string password, UserRole role);
+    Task<UserDto> RegisterAsync(string email, string password, UserRole role, string? displayName = null);
 
     /// <summary>Connexion Google via le navigateur. Renvoie null si l'utilisateur annule.</summary>
     Task<UserDto?> LoginWithGoogleAsync(UserRole? role = null);

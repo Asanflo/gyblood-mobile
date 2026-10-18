@@ -2,15 +2,38 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Admin"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
              x:Class="GyBlood.Mobile.Views.Admin.SettingsPage"
              x:DataType="vm:SettingsViewModel"
-             Title="Paramètres">
+             Title="Paramètres"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Paramètres" Style="{StaticResource Heading}" />
-      <Label Text="Délai minimal entre deux dons par sexe et type de don. (US-53)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Label Text="Délai minimal entre deux dons" Style="{StaticResource SectionTitle}" />
+      <Label Text="Valeurs de départ, à faire valider d'après les recommandations du CNTS avant la mise en production."
+             Style="{StaticResource Caption}" />
+
+      <VerticalStackLayout BindableLayout.ItemsSource="{Binding Intervals}" Spacing="10">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="items:IntervalItem">
+            <Border Style="{StaticResource Card}" Padding="14,10">
+              <Grid ColumnDefinitions="*,80,Auto" ColumnSpacing="10">
+                <Label Text="{Binding Label}" VerticalOptions="Center" />
+                <Border Grid.Column="1" Style="{StaticResource FieldBorder}">
+                  <Entry Text="{Binding Days}" Keyboard="Numeric" MaxLength="4" HorizontalTextAlignment="Center" />
+                </Border>
+                <Label Grid.Column="2" Text="jours" Style="{StaticResource Caption}" VerticalOptions="Center" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </VerticalStackLayout>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Enregistrer" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Se déconnecter" Command="{Binding LogoutCommand}" Style="{StaticResource LinkButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

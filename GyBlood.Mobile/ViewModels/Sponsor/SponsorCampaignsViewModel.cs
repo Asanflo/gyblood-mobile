@@ -1,18 +1,15 @@
-using GyBlood.Mobile.ViewModels.Base;
+using GyBlood.Mobile.Services.Api;
+using GyBlood.Mobile.Services.Navigation;
+using GyBlood.Mobile.ViewModels.Shared;
 
 namespace GyBlood.Mobile.ViewModels.Sponsor;
 
-/// <summary>Campagnes : Campagnes à financer avec objectif et fonds reçus. (US-41)</summary>
-public partial class SponsorCampaignsViewModel : BaseViewModel
+/// <summary>Campagnes à financer, vues par le sponsor. (US-33)</summary>
+public sealed class SponsorCampaignsViewModel : CampaignListViewModelBase
 {
-    public SponsorCampaignsViewModel()
+    public SponsorCampaignsViewModel(ICampaignApi api, INavigationService navigation)
+        : base(api, navigation)
     {
-        Title = "Campagnes";
-    }
-
-    public override Task OnAppearingAsync()
-    {
-        // À FAIRE : charger les données via le service ou l'interface Refit concernée.
-        return Task.CompletedTask;
+        Title = "Campagnes à financer";
     }
 }

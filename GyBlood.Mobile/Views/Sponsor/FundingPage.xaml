@@ -2,15 +2,41 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Sponsor"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Sponsor.FundingPage"
              x:DataType="vm:FundingViewModel"
-             Title="Financement">
+             Title="Financer"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Financement" Style="{StaticResource Heading}" />
-      <Label Text="Montant, paiement MoMo ou Orange Money, reçu. (US-42)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Border Style="{StaticResource SoftCard}">
+        <VerticalStackLayout Spacing="2">
+          <Label Text="Campagne" Style="{StaticResource Caption}" />
+          <Label Text="{Binding CampaignTitle}" FontAttributes="Bold" FontSize="16" />
+          <Label Text="{Binding StructureName}" Style="{StaticResource Subtitle}" />
+        </VerticalStackLayout>
+      </Border>
+
+      <controls:FormField Header="Montant (FCFA)" IsRequired="True" Placeholder="Minimum 500" KeyboardType="Numeric" MaxLength="9" Text="{Binding AmountText}" />
+
+      <FlexLayout BindableLayout.ItemsSource="{Binding Chips}" Wrap="Wrap">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="items:AmountChip">
+            <Button Text="{Binding Text}" Command="{Binding SelectCommand}" Style="{StaticResource SmallOutlineButton}" Margin="0,0,8,8" />
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </FlexLayout>
+
+      <Label Text="Opérateur Mobile Money" FontSize="13" FontAttributes="Bold" />
+      <controls:OperatorSelector Selected="{Binding SelectedOperator}" />
+
+      <controls:FormField Header="Numéro Mobile Money" IsRequired="True" Placeholder="6XXXXXXXX" KeyboardType="Telephone" MaxLength="9" Text="{Binding PhoneNumber}" />
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Financer cette campagne" Command="{Binding PayCommand}" IsEnabled="{Binding IsNotBusy}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

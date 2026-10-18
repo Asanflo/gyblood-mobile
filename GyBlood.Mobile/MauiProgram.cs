@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using GyBlood.Mobile.Core.Extensions;
+using GyBlood.Mobile.Views.Controls;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
@@ -14,7 +15,8 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
-            .UseSkiaSharp(); // requis par Mapsui
+            .UseSkiaSharp() // requis par Mapsui
+            .ConfigureMauiHandlers(_ => EntryHandlerSetup.Apply());
 
         builder.Services
             .AddApiClients()

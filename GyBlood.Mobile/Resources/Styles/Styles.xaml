@@ -1,34 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:conv="clr-namespace:GyBlood.Mobile.Converters">
+
+  <!-- Convertisseurs partagés : {StaticResource InverseBool}, {StaticResource StringNotEmpty}, {StaticResource IsNotNull} -->
+  <conv:InverseBoolConverter x:Key="InverseBool" />
+  <conv:StringNotEmptyConverter x:Key="StringNotEmpty" />
+  <conv:IsNotNullConverter x:Key="IsNotNull" />
 
   <Style TargetType="Page" ApplyToDerivedTypes="True">
     <Setter Property="BackgroundColor" Value="{StaticResource White}" />
   </Style>
 
+  <!-- ===== Texte ===== -->
   <Style TargetType="Label">
     <Setter Property="TextColor" Value="{StaticResource Gray900}" />
     <Setter Property="FontSize" Value="15" />
   </Style>
 
   <Style x:Key="Heading" TargetType="Label">
-    <Setter Property="TextColor" Value="{StaticResource Primary}" />
-    <Setter Property="FontSize" Value="24" />
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="FontSize" Value="26" />
     <Setter Property="FontAttributes" Value="Bold" />
   </Style>
 
+  <Style x:Key="BrandHeading" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource Primary}" />
+    <Setter Property="FontSize" Value="32" />
+    <Setter Property="FontAttributes" Value="Bold" />
+  </Style>
+
+  <Style x:Key="SectionTitle" TargetType="Label">
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="FontAttributes" Value="Bold" />
+  </Style>
+
+  <Style x:Key="Subtitle" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource Gray600}" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+
+  <Style x:Key="Caption" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource Gray600}" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+
+  <Style x:Key="ErrorLabel" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource Danger}" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <Style x:Key="LinkLabel" TargetType="Label">
+    <Setter Property="TextColor" Value="{StaticResource Primary}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontAttributes" Value="Bold" />
+  </Style>
+
+  <!-- ===== Champs ===== -->
   <Style TargetType="Entry">
     <Setter Property="TextColor" Value="{StaticResource Gray900}" />
     <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
     <Setter Property="FontSize" Value="15" />
   </Style>
 
+  <Style TargetType="Editor">
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="FontSize" Value="15" />
+  </Style>
+
+  <Style TargetType="Picker">
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="TitleColor" Value="{StaticResource Gray500}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    <Setter Property="FontSize" Value="15" />
+  </Style>
+
+  <Style TargetType="DatePicker">
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+  </Style>
+
+  <Style TargetType="TimePicker">
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="BackgroundColor" Value="Transparent" />
+  </Style>
+
+  <!-- ===== Boutons ===== -->
   <Style TargetType="Button">
     <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
     <Setter Property="TextColor" Value="{StaticResource White}" />
     <Setter Property="FontAttributes" Value="Bold" />
-    <Setter Property="CornerRadius" Value="10" />
-    <Setter Property="Padding" Value="16,12" />
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="HeightRequest" Value="48" />
+    <Setter Property="Padding" Value="16,0" />
   </Style>
 
   <Style x:Key="OutlineButton" TargetType="Button">
@@ -38,14 +106,74 @@
     <Setter Property="BorderWidth" Value="1" />
   </Style>
 
+  <Style x:Key="NeutralButton" TargetType="Button">
+    <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+    <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    <Setter Property="BorderColor" Value="{StaticResource Stroke}" />
+    <Setter Property="BorderWidth" Value="1" />
+  </Style>
+
   <Style x:Key="LinkButton" TargetType="Button">
     <Setter Property="BackgroundColor" Value="Transparent" />
     <Setter Property="TextColor" Value="{StaticResource Primary}" />
     <Setter Property="FontAttributes" Value="None" />
+    <Setter Property="HeightRequest" Value="40" />
+  </Style>
+
+  <Style x:Key="SmallButton" TargetType="Button">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="HeightRequest" Value="38" />
+    <Setter Property="Padding" Value="12,0" />
+  </Style>
+
+  <Style x:Key="SmallOutlineButton" TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="HeightRequest" Value="38" />
+    <Setter Property="Padding" Value="12,0" />
+  </Style>
+
+  <!-- ===== Conteneurs ===== -->
+  <Style x:Key="Card" TargetType="Border">
+    <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+    <Setter Property="Stroke" Value="{StaticResource Stroke}" />
+    <Setter Property="StrokeThickness" Value="1" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+    <Setter Property="Padding" Value="14" />
+  </Style>
+
+  <Style x:Key="SoftCard" TargetType="Border">
+    <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+    <Setter Property="Padding" Value="14" />
+  </Style>
+
+  <Style x:Key="Banner" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource BannerBrush}" />
+    <Setter Property="StrokeThickness" Value="0" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+    <Setter Property="Padding" Value="16" />
+  </Style>
+
+  <Style x:Key="FieldBorder" TargetType="Border">
+    <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+    <Setter Property="Stroke" Value="{StaticResource Stroke}" />
+    <Setter Property="StrokeThickness" Value="1" />
+    <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+    <Setter Property="Padding" Value="12,0" />
+    <Setter Property="HeightRequest" Value="48" />
   </Style>
 
   <Style TargetType="ActivityIndicator">
     <Setter Property="Color" Value="{StaticResource Primary}" />
+  </Style>
+
+  <Style TargetType="Switch">
+    <Setter Property="OnColor" Value="{StaticResource Primary}" />
+  </Style>
+
+  <Style TargetType="RefreshView">
+    <Setter Property="RefreshColor" Value="{StaticResource Primary}" />
   </Style>
 
 </ResourceDictionary>

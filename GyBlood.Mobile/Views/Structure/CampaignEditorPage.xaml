@@ -2,15 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Structure"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Structure.CampaignEditorPage"
              x:DataType="vm:CampaignEditorViewModel"
-             Title="Nouvelle campagne">
+             Title="Nouvelle campagne"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Nouvelle campagne" Style="{StaticResource Heading}" />
-      <Label Text="Titre, lieu, dates, objectif, description. (US-32)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <!-- IMAGE : visuel de la campagne (à brancher plus tard) -->
+      <controls:ImageFrame HeightRequest="120" Caption="Visuel de la campagne" CornerRadius="12" />
+
+      <controls:FormField Header="Titre" IsRequired="True" Placeholder="Ex. Grande collecte de sang" Text="{Binding CampaignTitle}" />
+      <controls:FormField Header="Lieu" IsRequired="True" Placeholder="Ex. Place du gouvernement, Douala" Text="{Binding Location}" />
+
+      <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Début *" FontSize="13" FontAttributes="Bold" />
+          <Border Style="{StaticResource FieldBorder}">
+            <DatePicker Date="{Binding StartDate}" MinimumDate="{Binding MinimumDate}" Format="dd/MM/yyyy" />
+          </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="1" Spacing="6">
+          <Label Text="Fin *" FontSize="13" FontAttributes="Bold" />
+          <Border Style="{StaticResource FieldBorder}">
+            <DatePicker Date="{Binding EndDate}" MinimumDate="{Binding MinimumDate}" Format="dd/MM/yyyy" />
+          </Border>
+        </VerticalStackLayout>
+      </Grid>
+
+      <controls:FormField Header="Objectif (nombre de dons)" IsRequired="True" Placeholder="Ex. 100" KeyboardType="Numeric" MaxLength="5" Text="{Binding TargetText}" />
+
+      <VerticalStackLayout Spacing="6">
+        <Label Text="Description" FontSize="13" FontAttributes="Bold" />
+        <Border Style="{StaticResource FieldBorder}">
+          <Editor Text="{Binding Description}" Placeholder="Présentez la campagne…" AutoSize="TextChanges" MinimumHeightRequest="100" />
+        </Border>
+      </VerticalStackLayout>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Publier la campagne" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

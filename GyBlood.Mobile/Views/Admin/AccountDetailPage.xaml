@@ -2,15 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Admin"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Admin.AccountDetailPage"
              x:DataType="vm:AccountDetailViewModel"
-             Title="Détail d'un compte">
+             Title="Compte"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Détail d'un compte" Style="{StaticResource Heading}" />
-      <Label Text="Document de groupe sanguin, valider, refuser, suspendre. (US-50, US-51, US-52)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <Border Style="{StaticResource Card}">
+        <VerticalStackLayout Spacing="8">
+          <Grid ColumnDefinitions="*,Auto">
+            <Label Text="{Binding Name}" Style="{StaticResource Heading}" FontSize="20" />
+            <controls:StatusChip Grid.Column="1" Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" VerticalOptions="Center" />
+          </Grid>
+          <Label Text="{Binding EmailText}" Style="{StaticResource Subtitle}" />
+          <Label Text="{Binding RoleText}" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+        </VerticalStackLayout>
+      </Border>
+
+      <Button Text="Voir le justificatif de groupe sanguin" Command="{Binding ViewDocumentCommand}" IsVisible="{Binding HasDocument}"
+              IsEnabled="{Binding IsNotBusy}" Style="{StaticResource OutlineButton}" />
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+
+      <Button Text="Valider le compte" Command="{Binding ApproveCommand}" IsVisible="{Binding CanApprove}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Refuser…" Command="{Binding ShowRejectCommand}" IsVisible="{Binding CanReject}" Style="{StaticResource OutlineButton}" />
+
+      <Border Style="{StaticResource SoftCard}" IsVisible="{Binding IsRejecting}">
+        <VerticalStackLayout Spacing="10">
+          <Label Text="Motif du refus" FontAttributes="Bold" />
+          <Border Style="{StaticResource FieldBorder}" BackgroundColor="{StaticResource White}">
+            <Editor Text="{Binding ReasonText}" Placeholder="Ex. Justificatif illisible" AutoSize="TextChanges" MinimumHeightRequest="80" />
+          </Border>
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Annuler" Command="{Binding CancelRejectCommand}" Style="{StaticResource SmallOutlineButton}" />
+            <Button Grid.Column="1" Text="Confirmer le refus" Command="{Binding ConfirmRejectCommand}" IsEnabled="{Binding IsNotBusy}" Style="{StaticResource SmallButton}" />
+          </Grid>
+        </VerticalStackLayout>
+      </Border>
+
+      <Button Text="Suspendre le compte" Command="{Binding SuspendCommand}" IsVisible="{Binding CanSuspend}" Style="{StaticResource OutlineButton}" />
+      <Button Text="Réactiver le compte" Command="{Binding ReactivateCommand}" IsVisible="{Binding CanReactivate}" IsEnabled="{Binding IsNotBusy}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

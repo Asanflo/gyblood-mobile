@@ -18,9 +18,11 @@ public static class ServiceCollectionExtensions
     {
         var settings = RefitSettingsFactory.Create();
 
-        services.AddTransient<AuthHeaderHandler>();
-        services.AddRefitClient<IAuthApi>(settings).ConfigureHttpClient(Configure);
+        services.AddTransient<DemoHandler>();
 
+        services.AddTransient<AuthHeaderHandler>();
+        services.AddRefitClient<IAuthApi>(settings).ConfigureHttpClient(Configure)
+            .ConfigurePrimaryHttpMessageHandler<DemoHandler>();
         services.AddAuthorizedClient<IMeApi>(settings);
         services.AddAuthorizedClient<IPatientApi>(settings);
         services.AddAuthorizedClient<IDonorApi>(settings);
@@ -112,6 +114,16 @@ public static class ServiceCollectionExtensions
         services.AddTransient<Views.Auth.RegisterPage>();
         services.AddTransient<ViewModels.Auth.PendingAccountViewModel>();
         services.AddTransient<Views.Auth.PendingAccountPage>();
+        services.AddTransient<ViewModels.Auth.WelcomeViewModel>();
+        services.AddTransient<Views.Auth.WelcomePage>();
+        services.AddTransient<ViewModels.Patient.PatientHomeViewModel>();
+        services.AddTransient<Views.Patient.PatientHomePage>();
+        services.AddTransient<ViewModels.Shared.CampaignsViewModel>();
+        services.AddTransient<Views.Shared.CampaignsPage>();
+        services.AddTransient<ViewModels.Donor.DonorHomeViewModel>();
+        services.AddTransient<Views.Donor.DonorHomePage>();
+        services.AddTransient<ViewModels.Structure.StructureDashboardViewModel>();
+        services.AddTransient<Views.Structure.StructureDashboardPage>();
         services.AddTransient<ViewModels.Shared.StartupViewModel>();
         services.AddTransient<Views.Shared.StartupPage>();
         return services;
@@ -133,7 +145,8 @@ public static class ServiceCollectionExtensions
         where T : class
         => services.AddRefitClient<T>(settings)
             .ConfigureHttpClient(Configure)
-            .AddHttpMessageHandler<AuthHeaderHandler>();
+            .AddHttpMessageHandler<AuthHeaderHandler>()
+            .ConfigurePrimaryHttpMessageHandler<DemoHandler>();
 
     private static void Configure(HttpClient client)
     {

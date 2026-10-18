@@ -2,15 +2,40 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Structure"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
              x:Class="GyBlood.Mobile.Views.Structure.StockEditorPage"
              x:DataType="vm:StockEditorViewModel"
-             Title="Stocks">
-  <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Stocks" Style="{StaticResource Heading}" />
-      <Label Text="Saisie des quantités par groupe sanguin et rhésus. (US-31)" TextColor="{StaticResource Gray600}" />
-      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
+             Title="Mes stocks"
+             Shell.NavBarIsVisible="True">
+  <Grid RowDefinitions="*,Auto">
+    <CollectionView ItemsSource="{Binding Rows}">
+      <CollectionView.Header>
+        <Label Text="Indiquez le nombre de poches disponibles pour chaque groupe." Style="{StaticResource Subtitle}" Margin="20,12,20,8" />
+      </CollectionView.Header>
+      <CollectionView.ItemsLayout>
+        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+      </CollectionView.ItemsLayout>
+      <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="items:StockEditRow">
+          <Border Style="{StaticResource Card}" Margin="20,0" Padding="14,10">
+            <Grid ColumnDefinitions="*,Auto,56,Auto" ColumnSpacing="10">
+              <Label Text="{Binding BloodText}" FontAttributes="Bold" FontSize="18" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+              <Button Grid.Column="1" Text="−" Command="{Binding DecreaseCommand}" Style="{StaticResource SmallOutlineButton}" WidthRequest="44" />
+              <Label Grid.Column="2" Text="{Binding Quantity}" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+              <Button Grid.Column="3" Text="+" Command="{Binding IncreaseCommand}" Style="{StaticResource SmallButton}" WidthRequest="44" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+      <CollectionView.Footer>
+        <BoxView HeightRequest="16" Color="Transparent" />
+      </CollectionView.Footer>
+    </CollectionView>
+
+    <VerticalStackLayout Grid.Row="1" Padding="20,8,20,16" Spacing="6">
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Enregistrer" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
     </VerticalStackLayout>
-  </ScrollView>
+  </Grid>
 </ContentPage>

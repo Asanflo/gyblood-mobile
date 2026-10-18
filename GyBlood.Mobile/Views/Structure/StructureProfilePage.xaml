@@ -2,15 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Structure"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Structure.StructureProfilePage"
              x:DataType="vm:StructureProfileViewModel"
-             Title="Profil de la structure">
+             Title="Profil"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="12">
-      <Label Text="Profil de la structure" Style="{StaticResource Heading}" />
-      <Label Text="Nom, adresse, position, téléphone, justificatif. (US-30)" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="20" Spacing="14">
+      <!-- IMAGE : logo de la structure -->
+      <controls:ImageFrame WidthRequest="88" HeightRequest="88" Caption="Logo" CornerRadius="44" HorizontalOptions="Center" />
+      <controls:StatusChip Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" HorizontalOptions="Center" />
+
+      <controls:FormField Header="Adresse email" Text="{Binding Email}" IsReadOnly="True" />
+
+      <Label Text="Informations de la structure" Style="{StaticResource SectionTitle}" Margin="0,8,0,0" />
+      <controls:FormField Header="Nom de la structure" IsRequired="True" Placeholder="Ex. Hôpital Laquintinie" Text="{Binding StructureName}" />
+      <controls:FormField Header="Adresse" IsRequired="True" Placeholder="Quartier, ville" Text="{Binding Address}" />
+      <controls:FormField Header="Téléphone" IsRequired="True" Placeholder="6XXXXXXXX" KeyboardType="Telephone" MaxLength="9" Text="{Binding Phone}" />
+
+      <Border Style="{StaticResource SoftCard}">
+        <VerticalStackLayout Spacing="8">
+          <Label Text="Position de la structure" FontAttributes="Bold" />
+          <Label Text="{Binding LocationText}" Style="{StaticResource Subtitle}" />
+          <Button Text="Utiliser ma position" Command="{Binding UseMyLocationCommand}" Style="{StaticResource SmallOutlineButton}" />
+        </VerticalStackLayout>
+      </Border>
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <Button Text="Enregistrer" Command="{Binding SaveCommand}" IsEnabled="{Binding IsNotBusy}" />
+      <Button Text="Se déconnecter" Command="{Binding LogoutCommand}" Style="{StaticResource LinkButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
     </VerticalStackLayout>
   </ScrollView>
 </ContentPage>
