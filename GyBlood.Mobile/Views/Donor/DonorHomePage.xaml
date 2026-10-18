@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Donor"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
              xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Donor.DonorHomePage"
              x:DataType="vm:DonorHomeViewModel"
@@ -53,12 +54,54 @@
         </VerticalStackLayout>
       </Border>
 
+      <!-- Accès rapides -->
       <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
         <controls:ActionTile Grid.Row="0" Grid.Column="0" Icon="action_requests" Title="Demandes" Subtitle="{Binding RequestsText}" Command="{Binding OpenRequestsCommand}" />
         <controls:ActionTile Grid.Row="0" Grid.Column="1" Icon="action_availability" Title="Disponibilité" Subtitle="{Binding AvailabilityText}" Command="{Binding OpenAvailabilityCommand}" />
         <controls:ActionTile Grid.Row="1" Grid.Column="0" Icon="action_campaign" Title="Campagnes" Subtitle="Près de chez vous" Command="{Binding OpenCampaignsCommand}" />
         <controls:ActionTile Grid.Row="1" Grid.Column="1" Icon="action_history" Title="Mon activité" Subtitle="Mes dons" Command="{Binding OpenHistoryCommand}" />
       </Grid>
+
+      <!-- Derniers dons -->
+      <Grid ColumnDefinitions="*,Auto">
+        <Label Text="Mes derniers dons" Style="{StaticResource SectionTitle}" />
+        <Label Grid.Column="1" Text="Voir tout →" Style="{StaticResource LinkLabel}" FontSize="13">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenHistoryCommand}" />
+          </Label.GestureRecognizers>
+        </Label>
+      </Grid>
+      <VerticalStackLayout BindableLayout.ItemsSource="{Binding RecentDonations}" IsVisible="{Binding HasDonations}" Spacing="10">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="items:DonationItem">
+            <controls:DonationCard />
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </VerticalStackLayout>
+      <Label Text="Vos dons apparaîtront ici après votre premier don." Style="{StaticResource Caption}">
+        <Label.Triggers>
+          <DataTrigger TargetType="Label" Binding="{Binding HasDonations}" Value="True">
+            <Setter Property="IsVisible" Value="False" />
+          </DataTrigger>
+        </Label.Triggers>
+      </Label>
+
+      <!-- Campagnes -->
+      <Grid ColumnDefinitions="*,Auto">
+        <Label Text="Campagnes de don de sang" Style="{StaticResource SectionTitle}" />
+        <Label Grid.Column="1" Text="Voir tout →" Style="{StaticResource LinkLabel}" FontSize="13">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenCampaignsCommand}" />
+          </Label.GestureRecognizers>
+        </Label>
+      </Grid>
+      <VerticalStackLayout BindableLayout.ItemsSource="{Binding Campaigns}" IsVisible="{Binding HasCampaigns}" Spacing="12">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="items:CampaignItem">
+            <controls:CampaignCard />
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </VerticalStackLayout>
 
       <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
              IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />

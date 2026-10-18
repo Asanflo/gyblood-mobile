@@ -14,10 +14,10 @@
 
   <!-- Onglets : les icônes (Icon="...") seront ajoutées une fois les images prêtes. -->
   <TabBar>
-    <ShellContent Title="Accueil" Route="structure-home" ContentTemplate="{DataTemplate pages:StructureDashboardPage}" />
-    <ShellContent Title="Rendez-vous" Route="structure-appointments" ContentTemplate="{DataTemplate pages:StructureAppointmentsPage}" />
-    <ShellContent Title="Campagnes" Route="structure-campaigns" ContentTemplate="{DataTemplate pages:StructureCampaignsPage}" />
-    <ShellContent Title="Profil" Route="structure-profile" ContentTemplate="{DataTemplate pages:StructureProfilePage}" />
+    <ShellContent Title="Accueil" Icon="tab_home" Route="structure-home" ContentTemplate="{DataTemplate pages:StructureDashboardPage}" />
+    <ShellContent Title="Rendez-vous" Icon="tab_appointments" Route="structure-appointments" ContentTemplate="{DataTemplate pages:StructureAppointmentsPage}" />
+    <ShellContent Title="Campagnes" Icon="tab_campaign" Route="structure-campaigns" ContentTemplate="{DataTemplate pages:StructureCampaignsPage}" />
+    <ShellContent Title="Profil" Icon="tab_profile" Route="structure-profile" ContentTemplate="{DataTemplate pages:StructureProfilePage}" />
   </TabBar>
 
 </Shell>

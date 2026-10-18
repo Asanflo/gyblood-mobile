@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GyBlood.Mobile.Core.Constants;
@@ -6,15 +7,17 @@ using GyBlood.Mobile.Services.Api;
 using GyBlood.Mobile.Services.Auth;
 using GyBlood.Mobile.Services.Navigation;
 using GyBlood.Mobile.ViewModels.Base;
+using GyBlood.Mobile.ViewModels.Items;
 
 namespace GyBlood.Mobile.ViewModels.Donor;
 
-/// <summary>Accueil du donneur : prochain don possible, demandes en attente, accès rapides.</summary>
+/// <summary>Accueil du donneur : prochain don possible, demandes en attente, accès rapides, derniers dons et campagnes.</summary>
 public partial class DonorHomeViewModel : BaseViewModel
 {
     private readonly IAuthService _auth;
     private readonly IDonorApi _donorApi;
     private readonly IAppointmentApi _appointmentApi;
+    private readonly ICampaignApi _campaignApi;
     private readonly INavigationService _navigation;
 
     [ObservableProperty]
@@ -35,18 +38,30 @@ public partial class DonorHomeViewModel : BaseViewModel
     [ObservableProperty]
     private bool profileIncomplete;
 
+    [ObservableProperty]
+    private bool hasDonations;
+
+    [ObservableProperty]
+    private bool hasCampaigns;
+
     public DonorHomeViewModel(
         IAuthService auth,
         IDonorApi donorApi,
         IAppointmentApi appointmentApi,
+        ICampaignApi campaignApi,
         INavigationService navigation)
     {
         _auth = auth;
         _donorApi = donorApi;
         _appointmentApi = appointmentApi;
+        _campaignApi = campaignApi;
         _navigation = navigation;
         Title = "Accueil";
     }
+
+    public ObservableCollection<DonationItem> RecentDonations { get; } = [];
+
+    public ObservableCollection<CampaignItem> Campaigns { get; } = [];
 
     public override async Task OnAppearingAsync()
     {
@@ -76,7 +91,39 @@ public partial class DonorHomeViewModel : BaseViewModel
                 1 => "1 demande en attente",
                 _ => $"{count} demandes en attente",
             };
+
+            await LoadRecentDonationsAsync();
+            await LoadCampaignsAsync();
         });
+    }
+
+    private async Task LoadRecentDonationsAsync()
+    {
+        var page = await _donorApi.GetDonationsAsync(size: 3);
+        RecentDonations.Clear();
+        foreach (var donation in page.Content)
+        {
+            RecentDonations.Add(new DonationItem
+            {
+                StructureName = donation.StructureName,
+                DateText = Ui.Day(donation.DonatedAt),
+                VolumeText = donation.VolumeMl is { } ml ? $"{ml} ml" : string.Empty,
+            });
+        }
+
+        HasDonations = RecentDonations.Count > 0;
+    }
+
+    private async Task LoadCampaignsAsync()
+    {
+        var page = await _campaignApi.GetCampaignsAsync(size: 3);
+        Campaigns.Clear();
+        foreach (var dto in page.Content)
+        {
+            Campaigns.Add(CampaignItems.From(dto, _navigation));
+        }
+
+        HasCampaigns = Campaigns.Count > 0;
     }
 
     [RelayCommand]

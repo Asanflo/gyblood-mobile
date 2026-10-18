@@ -9,8 +9,36 @@
              Shell.NavBarIsVisible="True">
   <ScrollView>
     <VerticalStackLayout Padding="20" Spacing="14">
-      <!-- IMAGE : visuel de la campagne (à brancher plus tard) -->
-      <controls:ImageFrame HeightRequest="120" Caption="Visuel de la campagne" CornerRadius="12" />
+      <!-- Visuel de la campagne : boîte d'ajout d'image -->
+      <VerticalStackLayout Spacing="6">
+        <Label Text="Visuel de la campagne" FontSize="13" FontAttributes="Bold" />
+
+        <!-- Aucune image : boîte à toucher -->
+        <Border IsVisible="{Binding HasNoImage}" Stroke="{StaticResource Gray300}" StrokeThickness="1.5"
+                StrokeDashArray="4,3" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource Gray100}"
+                Padding="16" HeightRequest="140">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding PickImageCommand}" />
+          </Border.GestureRecognizers>
+          <VerticalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Source="icon_upload" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center" />
+            <Label Text="Touchez pour ajouter une image" FontSize="13" HorizontalTextAlignment="Center" />
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- Image choisie : aperçu et actions -->
+        <VerticalStackLayout IsVisible="{Binding HasImage}" Spacing="8">
+          <Border StrokeThickness="0" StrokeShape="RoundRectangle 12" HeightRequest="160">
+            <Image Source="{Binding ImagePreview}" Aspect="AspectFill" />
+          </Border>
+          <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Text="Changer" Command="{Binding PickImageCommand}" Style="{StaticResource SmallOutlineButton}" />
+            <Button Grid.Column="1" Text="Retirer" Command="{Binding RemoveImageCommand}" Style="{StaticResource LinkButton}" />
+          </Grid>
+        </VerticalStackLayout>
+
+        <Label Text="PNG ou JPG, 5 Mo maximum." Style="{StaticResource Caption}" />
+      </VerticalStackLayout>
 
       <controls:FormField Header="Titre" IsRequired="True" Placeholder="Ex. Grande collecte de sang" Text="{Binding CampaignTitle}" />
       <controls:FormField Header="Lieu" IsRequired="True" Placeholder="Ex. Place du gouvernement, Douala" Text="{Binding Location}" />

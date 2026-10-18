@@ -32,8 +32,7 @@
         <Label Text="Justificatif de groupe sanguin" FontSize="13" FontAttributes="Bold" />
         <Border Style="{StaticResource SoftCard}">
           <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-            <!-- IMAGE : icône document -->
-            <controls:ImageFrame WidthRequest="40" HeightRequest="40" Caption="PDF" CornerRadius="8" />
+            <Image Source="icon_document" WidthRequest="40" HeightRequest="40" Aspect="AspectFit" VerticalOptions="Center" />
             <Label Grid.Column="1" Text="{Binding DocumentText}" VerticalOptions="Center" LineBreakMode="MiddleTruncation" />
             <Button Grid.Column="2" Text="Choisir" Command="{Binding PickDocumentCommand}" Style="{StaticResource SmallOutlineButton}" />
           </Grid>

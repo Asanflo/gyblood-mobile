@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GyBlood.Mobile.Core.Constants;
 using GyBlood.Mobile.Services.Api;
 using GyBlood.Mobile.Services.Dialogs;
 using GyBlood.Mobile.Services.Navigation;
@@ -13,6 +14,11 @@ public partial class CampaignEditorViewModel : BaseViewModel
     private readonly ICampaignApi _api;
     private readonly INavigationService _navigation;
     private readonly IDialogService _dialogs;
+
+    // Image choisie : conservée en mémoire, prête à être envoyée quand l'API le permettra.
+    private byte[]? _imageBytes;
+    private string? _imageFileName;
+    private string? _imageContentType;
 
     [ObservableProperty]
     private string campaignTitle = string.Empty;
@@ -32,6 +38,10 @@ public partial class CampaignEditorViewModel : BaseViewModel
     [ObservableProperty]
     private DateTime endDate = DateTime.Today.AddDays(7);
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasImage), nameof(HasNoImage))]
+    private ImageSource? imagePreview;
+
     public CampaignEditorViewModel(ICampaignApi api, INavigationService navigation, IDialogService dialogs)
     {
         _api = api;
@@ -41,6 +51,58 @@ public partial class CampaignEditorViewModel : BaseViewModel
     }
 
     public DateTime MinimumDate => DateTime.Today;
+
+    public bool HasImage => ImagePreview is not null;
+
+    public bool HasNoImage => ImagePreview is null;
+
+    [RelayCommand]
+    private async Task PickImageAsync()
+    {
+        try
+        {
+            var file = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = "Visuel de la campagne",
+                FileTypes = FilePickerFileType.Images,
+            });
+
+            if (file is null)
+            {
+                return;
+            }
+
+            await using var stream = await file.OpenReadAsync();
+            if (stream.Length > AppConstants.MaxDocumentBytes)
+            {
+                ErrorMessage = "L'image dépasse 5 Mo.";
+                return;
+            }
+
+            using var memory = new MemoryStream();
+            await stream.CopyToAsync(memory);
+            var bytes = memory.ToArray();
+
+            _imageBytes = bytes;
+            _imageFileName = file.FileName;
+            _imageContentType = file.ContentType;
+            ImagePreview = ImageSource.FromStream(() => new MemoryStream(bytes));
+            ErrorMessage = null;
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            ErrorMessage = "Impossible de lire cette image.";
+        }
+    }
+
+    [RelayCommand]
+    private void RemoveImage()
+    {
+        _imageBytes = null;
+        _imageFileName = null;
+        _imageContentType = null;
+        ImagePreview = null;
+    }
 
     [RelayCommand]
     private async Task SaveAsync()
@@ -74,6 +136,7 @@ public partial class CampaignEditorViewModel : BaseViewModel
                 target,
                 description));
 
+            // TODO (API) : envoyer _imageBytes / _imageFileName / _imageContentType quand l'API acceptera une image de campagne.
             await _dialogs.ToastAsync("Campagne publiée");
             await _navigation.GoBackAsync();
         });

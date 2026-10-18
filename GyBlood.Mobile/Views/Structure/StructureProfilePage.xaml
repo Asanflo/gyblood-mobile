@@ -9,8 +9,7 @@
              Shell.NavBarIsVisible="True">
   <ScrollView>
     <VerticalStackLayout Padding="20" Spacing="14">
-      <!-- IMAGE : logo de la structure -->
-      <controls:ImageFrame WidthRequest="88" HeightRequest="88" Caption="Logo" CornerRadius="44" HorizontalOptions="Center" />
+      <Image Source="structure_logo" WidthRequest="88" HeightRequest="88" Aspect="AspectFit" HorizontalOptions="Center" />
       <controls:StatusChip Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" HorizontalOptions="Center" />
 
       <controls:FormField Header="Adresse email" Text="{Binding Email}" IsReadOnly="True" />
