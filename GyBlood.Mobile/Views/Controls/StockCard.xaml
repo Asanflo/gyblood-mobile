@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Controls.StockCard"
+             x:DataType="items:StockItem">
+  <Border Style="{StaticResource Card}">
+    <VerticalStackLayout Spacing="10">
+      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+        <Border Grid.Column="0" WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource PrimaryLight}" StrokeThickness="0" StrokeShape="RoundRectangle 22">
+          <Label Text="{Binding BloodText}" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+          <Label Text="{Binding StructureName}" FontAttributes="Bold" />
+          <Label Text="{Binding DistanceText}" Style="{StaticResource Caption}" IsVisible="{Binding HasDistance}" />
+          <Label Text="{Binding UpdatedText}" Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="End" VerticalOptions="Center">
+          <Label Text="{Binding QuantityText}" FontAttributes="Bold" FontSize="16" HorizontalOptions="End" />
+          <Border BackgroundColor="{Binding LevelBackground}" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="8,2" HorizontalOptions="End">
+            <Label Text="{Binding LevelText}" TextColor="{Binding LevelColor}" FontSize="11" FontAttributes="Bold" />
+          </Border>
+        </VerticalStackLayout>
+      </Grid>
+      <Button Text="Contacter le centre" Command="{Binding ContactCommand}" Style="{StaticResource SmallOutlineButton}" />
+    </VerticalStackLayout>
+  </Border>
+</ContentView>

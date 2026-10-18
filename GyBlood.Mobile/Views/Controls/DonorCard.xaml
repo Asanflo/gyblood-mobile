@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Controls.DonorCard"
+             x:DataType="items:DonorItem">
+  <!-- Carte compacte du carrousel affiché sous la carte (style « Besoin de O+ » des maquettes). -->
+  <Border Style="{StaticResource Card}" WidthRequest="280">
+    <VerticalStackLayout Spacing="8">
+      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+        <Border WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource PrimaryLight}" StrokeThickness="0" StrokeShape="RoundRectangle 22">
+          <Label Text="{Binding BloodText}" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+          <Label Text="{Binding Name}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+          <Label Text="Donneur disponible" Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+        <Label Grid.Column="2" Text="{Binding DistanceText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+      </Grid>
+      <Button Text="Voir le donneur" Command="{Binding OpenCommand}" Style="{StaticResource SmallButton}" />
+    </VerticalStackLayout>
+  </Border>
+</ContentView>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Controls.AppointmentCard"
+             x:DataType="items:AppointmentItem">
+  <Border Style="{StaticResource Card}">
+    <Border.GestureRecognizers>
+      <TapGestureRecognizer Command="{Binding OpenCommand}" />
+    </Border.GestureRecognizers>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="4" ColumnSpacing="8">
+      <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontAttributes="Bold" FontSize="16" />
+      <controls:StatusChip Grid.Row="0" Grid.Column="1" Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" />
+      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Subtitle}" Style="{StaticResource Subtitle}" />
+      <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding DateText}" Style="{StaticResource Caption}" />
+      <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding FeeText}" IsVisible="{Binding HasFee}" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+      <Grid Grid.Row="4" Grid.ColumnSpan="2" ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,8,0,0" IsVisible="{Binding HasActions}">
+        <Button Grid.Column="0" Text="{Binding PrimaryText}" Command="{Binding PrimaryCommand}" IsVisible="{Binding HasPrimary}" Style="{StaticResource SmallButton}" />
+        <Button Grid.Column="1" Text="{Binding SecondaryText}" Command="{Binding SecondaryCommand}" IsVisible="{Binding HasSecondary}" Style="{StaticResource SmallOutlineButton}" />
+      </Grid>
+    </Grid>
+  </Border>
+</ContentView>

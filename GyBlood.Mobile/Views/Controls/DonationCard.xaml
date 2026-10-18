@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Controls.DonationCard"
+             x:DataType="items:DonationItem">
+  <Border Style="{StaticResource Card}">
+    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="3" ColumnSpacing="8">
+      <Label Grid.Row="0" Text="Don de sang" FontAttributes="Bold" />
+      <!-- IMAGE : pastille de validation (coche) -->
+      <controls:ImageFrame Grid.Row="0" Grid.Column="1" WidthRequest="22" HeightRequest="22" Caption="✓" CornerRadius="11" />
+      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding StructureName}" Style="{StaticResource Subtitle}" />
+      <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding DateText}" Style="{StaticResource Caption}" />
+    </Grid>
+  </Border>
+</ContentView>
