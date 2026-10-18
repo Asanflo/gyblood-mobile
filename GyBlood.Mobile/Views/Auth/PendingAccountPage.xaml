@@ -2,17 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Auth"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Auth.PendingAccountPage"
              x:DataType="vm:PendingAccountViewModel"
-             Title="Compte en attente">
+             Title="Compte en attente"
+             Shell.NavBarIsVisible="False">
   <ScrollView>
-    <VerticalStackLayout Padding="24" Spacing="16" VerticalOptions="Center">
-      <Label Text="Compte en attente" Style="{StaticResource Heading}" HorizontalOptions="Center" />
-      <Label Text="{Binding StatusMessage}" HorizontalTextAlignment="Center" />
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" HorizontalTextAlignment="Center" />
+    <VerticalStackLayout Padding="28" Spacing="16" VerticalOptions="Center">
+      <Image Source="pending_illustration" WidthRequest="160" HeightRequest="160" Aspect="AspectFit" HorizontalOptions="Center" />
+      <Label Text="{Binding Headline}" Style="{StaticResource Heading}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+      <Label Text="{Binding StatusMessage}" Style="{StaticResource Subtitle}" HorizontalTextAlignment="Center" />
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}" HorizontalTextAlignment="Center"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
 
-      <Button Text="Actualiser" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsNotBusy}" />
-      <Button Text="Se déconnecter" Style="{StaticResource OutlineButton}" Command="{Binding LogoutCommand}" />
+      <Button Text="Compléter mon profil" Command="{Binding EditProfileCommand}" IsVisible="{Binding CanEditProfile}" />
+      <Button Text="Actualiser" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsNotBusy}" Style="{StaticResource OutlineButton}" />
+      <Button Text="Se déconnecter" Command="{Binding LogoutCommand}" Style="{StaticResource LinkButton}" />
 
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
     </VerticalStackLayout>

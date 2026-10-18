@@ -2,27 +2,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Auth"
-             xmlns:behaviors="clr-namespace:GyBlood.Mobile.Behaviors"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Auth.LoginPage"
              x:DataType="vm:LoginViewModel"
-             Title="Connexion">
+             Title="Connexion"
+             Shell.NavBarIsVisible="False">
   <ScrollView>
-    <VerticalStackLayout Padding="24" Spacing="14" VerticalOptions="Center">
-      <Label Text="GyBlood" Style="{StaticResource Heading}" HorizontalOptions="Center" />
-      <Label Text="Donner son sang, sauver des vies" HorizontalOptions="Center" TextColor="{StaticResource Gray600}" />
+    <VerticalStackLayout Padding="24,40,24,24" Spacing="14">
+      <Image Source="logo" WidthRequest="110" HeightRequest="110" Aspect="AspectFit" HorizontalOptions="Center" />
+      <Label Text="Bienvenue !" Style="{StaticResource Heading}" HorizontalOptions="Center" />
+      <Label Text="Connectez-vous pour continuer" Style="{StaticResource Subtitle}" HorizontalOptions="Center" Margin="0,0,0,8" />
 
-      <Entry Placeholder="Adresse email" Keyboard="Email" Text="{Binding Email}">
-        <Entry.Behaviors>
-          <behaviors:EmailValidationBehavior />
-        </Entry.Behaviors>
-      </Entry>
-      <Entry Placeholder="Mot de passe" IsPassword="True" Text="{Binding Password}" />
+      <controls:FormField Header="Adresse email" Placeholder="vous@exemple.com" KeyboardType="Email" Text="{Binding Email}" />
+      <controls:FormField Header="Mot de passe" Placeholder="Votre mot de passe" IsPassword="True" Text="{Binding Password}" />
 
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
 
-      <Button Text="Se connecter" Command="{Binding LoginCommand}" IsEnabled="{Binding IsNotBusy}" />
-      <Button Text="Continuer avec Google" Style="{StaticResource OutlineButton}" Command="{Binding LoginWithGoogleCommand}" IsEnabled="{Binding IsNotBusy}" />
-      <Button Text="Créer un compte" Style="{StaticResource LinkButton}" Command="{Binding GoToRegisterCommand}" />
+      <Button Text="Continuer" Command="{Binding LoginCommand}" IsEnabled="{Binding IsNotBusy}" />
+
+      <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10" Margin="0,4">
+        <BoxView Grid.Column="0" HeightRequest="1" Color="{StaticResource Stroke}" VerticalOptions="Center" />
+        <Label Grid.Column="1" Text="ou" Style="{StaticResource Caption}" />
+        <BoxView Grid.Column="2" HeightRequest="1" Color="{StaticResource Stroke}" VerticalOptions="Center" />
+      </Grid>
+
+      <Border Style="{StaticResource FieldBorder}" BackgroundColor="{StaticResource White}">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding LoginWithGoogleCommand}" />
+        </Border.GestureRecognizers>
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+          <Image Source="google_logo" WidthRequest="22" HeightRequest="22" Aspect="AspectFit" VerticalOptions="Center" />
+          <Label Text="Se connecter avec Google" FontAttributes="Bold" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+      </Border>
+
+      <Button Text="Créer un compte" Command="{Binding GoToRegisterCommand}" Style="{StaticResource LinkButton}" />
+      <Label Text="En continuant, vous acceptez les conditions d'utilisation et la politique de confidentialité."
+             Style="{StaticResource Caption}" HorizontalTextAlignment="Center" />
 
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
     </VerticalStackLayout>

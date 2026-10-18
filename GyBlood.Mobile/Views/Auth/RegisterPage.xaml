@@ -2,35 +2,98 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Auth"
-             xmlns:behaviors="clr-namespace:GyBlood.Mobile.Behaviors"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
              x:Class="GyBlood.Mobile.Views.Auth.RegisterPage"
              x:DataType="vm:RegisterViewModel"
-             Title="Créer un compte">
+             Title="Inscription"
+             Shell.NavBarIsVisible="True">
   <ScrollView>
-    <VerticalStackLayout Padding="24" Spacing="14">
-      <Label Text="Créer un compte" Style="{StaticResource Heading}" />
+    <VerticalStackLayout Padding="20,12,20,24" Spacing="14">
+      <Label Text="{Binding HeaderText}" Style="{StaticResource Heading}" />
 
-      <Picker Title="Je suis" ItemsSource="{Binding Roles}"
-              ItemDisplayBinding="{Binding Label, x:DataType=vm:RoleOption}"
-              SelectedItem="{Binding SelectedRole}" />
-      <Entry Placeholder="Adresse email" Keyboard="Email" Text="{Binding Email}">
-        <Entry.Behaviors>
-          <behaviors:EmailValidationBehavior />
-        </Entry.Behaviors>
-      </Entry>
-      <Entry Placeholder="Mot de passe (8 caractères minimum)" IsPassword="True" Text="{Binding Password}">
-        <Entry.Behaviors>
-          <behaviors:PasswordValidationBehavior />
-        </Entry.Behaviors>
-      </Entry>
-      <Entry Placeholder="Confirmer le mot de passe" IsPassword="True" Text="{Binding ConfirmPassword}" />
+      <!-- ===== PATIENT ===== -->
+      <VerticalStackLayout Spacing="14" IsVisible="{Binding IsPatient}">
+        <controls:FormField Header="Nom complet" IsRequired="True" Placeholder="Votre nom" Text="{Binding FullName}" />
+      </VerticalStackLayout>
 
-      <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Danger}" />
+      <!-- ===== DONNEUR ===== -->
+      <VerticalStackLayout Spacing="14" IsVisible="{Binding IsDonor}">
+        <controls:FormField Header="Nom complet" IsRequired="True" Placeholder="Votre nom complet" Text="{Binding FullName}" />
+        <controls:PickerField Header="Sexe" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding SexChoices}" SelectedItem="{Binding SelectedSex}" />
+        <controls:PickerField Header="Groupe sanguin" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding GroupChoices}" SelectedItem="{Binding SelectedGroup}" />
+        <controls:PickerField Header="Rhésus" IsRequired="True" Title="Sélectionner" ItemsSource="{Binding RhesusChoices}" SelectedItem="{Binding SelectedRhesus}" />
+        <controls:FormField Header="Téléphone" Placeholder="6XXXXXXXX" KeyboardType="Telephone" MaxLength="9" Text="{Binding Phone}" />
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Antécédents médicaux" FontSize="13" FontAttributes="Bold" />
+          <Border Style="{StaticResource FieldBorder}">
+            <Editor Text="{Binding MedicalHistory}" Placeholder="Maladies, traitements, allergies…" AutoSize="TextChanges" MinimumHeightRequest="90" />
+          </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout Spacing="6">
+          <Label Text="Attestation de test de groupe sanguin *" FontSize="13" FontAttributes="Bold" />
+          <Border Stroke="{StaticResource Gray300}" StrokeThickness="1.5" StrokeDashArray="4,3" StrokeShape="RoundRectangle 12"
+                  BackgroundColor="{StaticResource Gray100}" Padding="16">
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding PickDocumentCommand}" />
+            </Border.GestureRecognizers>
+            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+              <Image Source="icon_upload" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center" />
+              <Label Text="{Binding DocumentText}" FontSize="13" HorizontalTextAlignment="Center" LineBreakMode="MiddleTruncation" />
+            </VerticalStackLayout>
+          </Border>
+          <Label Text="PDF ou image, 5 Mo maximum. Visible uniquement par l'administration." Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+      </VerticalStackLayout>
 
-      <Button Text="Créer mon compte" Command="{Binding RegisterCommand}" IsEnabled="{Binding IsNotBusy}" />
-      <Button Text="S'inscrire avec Google" Style="{StaticResource OutlineButton}" Command="{Binding RegisterWithGoogleCommand}" IsEnabled="{Binding IsNotBusy}" />
-      <Button Text="J'ai déjà un compte" Style="{StaticResource LinkButton}" Command="{Binding BackToLoginCommand}" />
+      <!-- ===== BANQUE DE SANG / HÔPITAL ===== -->
+      <VerticalStackLayout Spacing="14" IsVisible="{Binding IsStructure}">
+        <controls:FormField Header="Nom de la structure" IsRequired="True" Placeholder="Ex. Hôpital Laquintinie" Text="{Binding StructureName}" />
+        <controls:FormField Header="Adresse" IsRequired="True" Placeholder="Quartier, ville" Text="{Binding Address}" />
+        <controls:FormField Header="Téléphone" IsRequired="True" Placeholder="6XXXXXXXX" KeyboardType="Telephone" MaxLength="9" Text="{Binding Phone}" />
+        <Border Style="{StaticResource SoftCard}">
+          <VerticalStackLayout Spacing="8">
+            <Label Text="Position de la structure *" FontAttributes="Bold" />
+            <Label Text="{Binding LocationText}" Style="{StaticResource Subtitle}" />
+            <Button Text="Utiliser ma position" Command="{Binding UseMyLocationCommand}" Style="{StaticResource SmallOutlineButton}" />
+          </VerticalStackLayout>
+        </Border>
+      </VerticalStackLayout>
 
+      <!-- ===== PARTICULIER / SPONSOR ===== -->
+      <VerticalStackLayout Spacing="14" IsVisible="{Binding IsSponsor}">
+        <controls:PickerField Header="Vous êtes" Title="Sélectionner" ItemsSource="{Binding KindChoices}" SelectedItem="{Binding SelectedKind}" />
+        <controls:FormField Header="{Binding SponsorNameHeader}" IsRequired="True" Placeholder="{Binding SponsorNamePlaceholder}" Text="{Binding Organisation}" />
+        <controls:FormField Header="{Binding SponsorContactHeader}" IsRequired="True" Placeholder="{Binding SponsorContactPlaceholder}" Text="{Binding Contact}" />
+      </VerticalStackLayout>
+
+      <!-- ===== COMMUN : identifiants ===== -->
+      <Label Text="Vos identifiants" Style="{StaticResource SectionTitle}" Margin="0,6,0,0" />
+      <controls:FormField Header="Adresse email" IsRequired="True" Placeholder="vous@exemple.com" KeyboardType="Email" Text="{Binding Email}" />
+      <controls:FormField Header="Mot de passe" IsRequired="True" Placeholder="8 caractères minimum" IsPassword="True" Text="{Binding Password}" />
+      <controls:FormField Header="Confirmer le mot de passe" IsRequired="True" Placeholder="Répétez le mot de passe" IsPassword="True" Text="{Binding ConfirmPassword}" />
+
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+
+      <Button Text="S'inscrire" Command="{Binding RegisterCommand}" IsEnabled="{Binding IsNotBusy}" />
+
+      <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+        <BoxView Grid.Column="0" HeightRequest="1" Color="{StaticResource Stroke}" VerticalOptions="Center" />
+        <Label Grid.Column="1" Text="ou" Style="{StaticResource Caption}" />
+        <BoxView Grid.Column="2" HeightRequest="1" Color="{StaticResource Stroke}" VerticalOptions="Center" />
+      </Grid>
+
+      <Border Style="{StaticResource FieldBorder}" BackgroundColor="{StaticResource White}">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding RegisterWithGoogleCommand}" />
+        </Border.GestureRecognizers>
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+          <Image Source="google_logo" WidthRequest="22" HeightRequest="22" Aspect="AspectFit" VerticalOptions="Center" />
+          <Label Text="S'inscrire avec Google" FontAttributes="Bold" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+      </Border>
+
+      <Button Text="J'ai déjà un compte" Command="{Binding BackToLoginCommand}" Style="{StaticResource LinkButton}" />
       <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
     </VerticalStackLayout>
   </ScrollView>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Auth"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Auth.WelcomePage"
+             x:DataType="vm:WelcomeViewModel"
+             BackgroundColor="{StaticResource Cream}"
+             Shell.NavBarIsVisible="False">
+  <!-- Haut (40 %) : logo. Bas (60 %) : image des mains, du bas de l'écran jusqu'au logo. -->
+  <Grid RowDefinitions="4*,6*">
+
+    <!-- Image : uniquement dans la zone du bas -->
+    <Image Grid.Row="1" Source="accueil.jpeg" Aspect="AspectFill"
+           HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+    <!-- Dégradé : fond de l'écran qui s'estompe en haut de l'image -->
+    <BoxView Grid.Row="1" HeightRequest="150" VerticalOptions="Start" HorizontalOptions="Fill">
+      <BoxView.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <GradientStop Color="{StaticResource Cream}" Offset="0.0" />
+          <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+      </BoxView.Background>
+    </BoxView>
+
+    <!-- Logo et slogan -->
+    <VerticalStackLayout Grid.Row="0" VerticalOptions="End" HorizontalOptions="Center" Spacing="8" Padding="0,0,0,12">
+      <Image Source="logo" WidthRequest="170" HeightRequest="170" Aspect="AspectFit" HorizontalOptions="Center" />
+
+      <Label FontSize="46" FontAttributes="Bold" HorizontalOptions="Center">
+        <Label.FormattedText>
+          <FormattedString>
+            <Span Text="Gy" TextColor="{StaticResource Gray900}" />
+            <Span Text="Blood" TextColor="{StaticResource Primary}" />
+          </FormattedString>
+        </Label.FormattedText>
+      </Label>
+
+      <Label Text="Trouver. Donner. Sauver." FontSize="19" FontAttributes="Bold"
+             TextColor="{StaticResource Gray900}" HorizontalOptions="Center" />
+    </VerticalStackLayout>
+
+    <!-- Boutons par-dessus le bas de l'image -->
+    <VerticalStackLayout Grid.Row="1" VerticalOptions="End" Padding="32,0,32,36" Spacing="10">
+      <Button Text="Commencer" Command="{Binding StartCommand}" FontSize="20" HeightRequest="58" CornerRadius="16" />
+      <Button Text="Se connecter" Command="{Binding LoginCommand}" Style="{StaticResource LinkButton}" FontSize="19" />
+    </VerticalStackLayout>
+  </Grid>
+</ContentPage>

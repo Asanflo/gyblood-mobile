@@ -61,6 +61,7 @@ public partial class LoginViewModel : BaseViewModel
         });
     }
 
+    /// <summary>« Créer un compte » : on commence par le choix du profil.</summary>
     [RelayCommand]
-    private Task GoToRegisterAsync() => _navigation.GoToAsync(AppRoutes.Register);
+    private Task GoToRegisterAsync() => _navigation.GoToAsync(AppRoutes.RoleChoice);
 }
