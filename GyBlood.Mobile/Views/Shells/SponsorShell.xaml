@@ -4,18 +4,19 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Sponsor"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Primary}"
-       Shell.ForegroundColor="{StaticResource White}"
-       Shell.TitleColor="{StaticResource White}"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}"
        Shell.TabBarBackgroundColor="{StaticResource White}"
        Shell.TabBarForegroundColor="{StaticResource Primary}"
        Shell.TabBarTitleColor="{StaticResource Primary}"
        Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
+  
   <TabBar>
-    <ShellContent Title="Campagnes" Route="sponsor-campaigns" ContentTemplate="{DataTemplate pages:SponsorCampaignsPage}" />
-    <ShellContent Title="Financements" Route="sponsor-fundings" ContentTemplate="{DataTemplate pages:MyFundingsPage}" />
-    <ShellContent Title="Profil" Route="sponsor-profile" ContentTemplate="{DataTemplate pages:SponsorProfilePage}" />
+    <ShellContent Title="Campagnes" Icon="tab_campaign" Route="sponsor-campaigns" ContentTemplate="{DataTemplate pages:SponsorCampaignsPage}" />
+    <ShellContent Title="Financements" Icon="tab_funding" Route="sponsor-fundings" ContentTemplate="{DataTemplate pages:MyFundingsPage}" />
+    <ShellContent Title="Profil" Icon="tab_profile" Route="sponsor-profile" ContentTemplate="{DataTemplate pages:SponsorProfilePage}" />
   </TabBar>
 
 </Shell>

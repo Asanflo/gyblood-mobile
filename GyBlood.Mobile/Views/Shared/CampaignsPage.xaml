@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GyBlood.Mobile.ViewModels.Shared"
+             xmlns:items="clr-namespace:GyBlood.Mobile.ViewModels.Items"
+             xmlns:controls="clr-namespace:GyBlood.Mobile.Views.Controls"
+             x:Class="GyBlood.Mobile.Views.Shared.CampaignsPage"
+             x:DataType="vm:CampaignsViewModel"
+             Title="Campagnes"
+             Shell.NavBarIsVisible="True">
+  <RefreshView Command="{Binding LoadCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+    <Grid RowDefinitions="Auto,*">
+      <Label Text="{Binding ErrorMessage}" Style="{StaticResource ErrorLabel}" Margin="20,8"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmpty}}" />
+      <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,4,0,0">
+        <CollectionView.ItemsLayout>
+          <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+          <DataTemplate x:DataType="items:CampaignItem">
+            <controls:CampaignCard Margin="20,0" />
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.EmptyView>
+          <controls:EmptyState Message="Aucune campagne en cours pour le moment." />
+        </CollectionView.EmptyView>
+        <CollectionView.Footer>
+          <BoxView HeightRequest="16" Color="Transparent" />
+        </CollectionView.Footer>
+      </CollectionView>
+    </Grid>
+  </RefreshView>
+</ContentPage>

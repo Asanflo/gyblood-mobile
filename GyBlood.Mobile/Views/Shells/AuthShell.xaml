@@ -4,8 +4,13 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:auth="clr-namespace:GyBlood.Mobile.Views.Auth"
        Shell.FlyoutBehavior="Disabled"
-       Shell.NavBarIsVisible="False">
+       Shell.NavBarIsVisible="False"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}">
 
+  <!-- Premier écran : accueil (Commencer / Se connecter). Les deux autres sont atteints par navigation. -->
+  <ShellContent Route="welcome" ContentTemplate="{DataTemplate auth:WelcomePage}" />
   <ShellContent Route="login" ContentTemplate="{DataTemplate auth:LoginPage}" />
   <ShellContent Route="pending" ContentTemplate="{DataTemplate auth:PendingAccountPage}" />
 

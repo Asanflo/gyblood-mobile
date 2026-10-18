@@ -4,19 +4,21 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Donor"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Primary}"
-       Shell.ForegroundColor="{StaticResource White}"
-       Shell.TitleColor="{StaticResource White}"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}"
        Shell.TabBarBackgroundColor="{StaticResource White}"
        Shell.TabBarForegroundColor="{StaticResource Primary}"
        Shell.TabBarTitleColor="{StaticResource Primary}"
        Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
+  <!-- Onglets : les icônes (Icon="...") seront ajoutées une fois les images prêtes. -->
   <TabBar>
-    <ShellContent Title="Demandes" Route="donor-requests" ContentTemplate="{DataTemplate pages:RequestsPage}" />
-    <ShellContent Title="Campagnes" Route="donor-campaigns" ContentTemplate="{DataTemplate pages:DonorCampaignsPage}" />
-    <ShellContent Title="Historique" Route="donor-history" ContentTemplate="{DataTemplate pages:DonationHistoryPage}" />
-    <ShellContent Title="Profil" Route="donor-profile" ContentTemplate="{DataTemplate pages:DonorProfilePage}" />
+    <ShellContent Title="Accueil" Icon="tab_home" Route="donor-home" ContentTemplate="{DataTemplate pages:DonorHomePage}" />
+    <ShellContent Title="Demandes" Icon="tab_requests" Route="donor-requests" ContentTemplate="{DataTemplate pages:RequestsPage}" />
+    <ShellContent Title="Campagnes" Icon="tab_campaign" Route="donor-campaigns" ContentTemplate="{DataTemplate pages:DonorCampaignsPage}" />
+    <ShellContent Title="Activité" Icon="tab_history" Route="donor-history" ContentTemplate="{DataTemplate pages:DonationHistoryPage}" />
+    <ShellContent Title="Profil" Icon="tab_profile" Route="donor-profile" ContentTemplate="{DataTemplate pages:DonorProfilePage}" />
   </TabBar>
 
 </Shell>

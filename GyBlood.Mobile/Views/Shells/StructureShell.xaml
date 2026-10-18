@@ -4,16 +4,17 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Structure"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Primary}"
-       Shell.ForegroundColor="{StaticResource White}"
-       Shell.TitleColor="{StaticResource White}"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}"
        Shell.TabBarBackgroundColor="{StaticResource White}"
        Shell.TabBarForegroundColor="{StaticResource Primary}"
        Shell.TabBarTitleColor="{StaticResource Primary}"
        Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
+  <!-- Onglets : les icônes (Icon="...") seront ajoutées une fois les images prêtes. -->
   <TabBar>
-    <ShellContent Title="Stocks" Route="structure-stocks" ContentTemplate="{DataTemplate pages:StockEditorPage}" />
+    <ShellContent Title="Accueil" Route="structure-home" ContentTemplate="{DataTemplate pages:StructureDashboardPage}" />
     <ShellContent Title="Rendez-vous" Route="structure-appointments" ContentTemplate="{DataTemplate pages:StructureAppointmentsPage}" />
     <ShellContent Title="Campagnes" Route="structure-campaigns" ContentTemplate="{DataTemplate pages:StructureCampaignsPage}" />
     <ShellContent Title="Profil" Route="structure-profile" ContentTemplate="{DataTemplate pages:StructureProfilePage}" />

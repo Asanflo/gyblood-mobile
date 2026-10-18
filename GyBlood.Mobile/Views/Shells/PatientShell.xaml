@@ -3,20 +3,23 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Patient"
+       xmlns:shared="clr-namespace:GyBlood.Mobile.Views.Shared"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Primary}"
-       Shell.ForegroundColor="{StaticResource White}"
-       Shell.TitleColor="{StaticResource White}"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}"
        Shell.TabBarBackgroundColor="{StaticResource White}"
        Shell.TabBarForegroundColor="{StaticResource Primary}"
        Shell.TabBarTitleColor="{StaticResource Primary}"
        Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
+  <!-- Onglets : les icônes (Icon="...") seront ajoutées une fois les images prêtes. -->
   <TabBar>
-    <ShellContent Title="Stocks" Route="patient-stocks" ContentTemplate="{DataTemplate pages:StocksPage}" />
-    <ShellContent Title="Carte" Route="patient-map" ContentTemplate="{DataTemplate pages:DonorMapPage}" />
-    <ShellContent Title="Rendez-vous" Route="patient-appointments" ContentTemplate="{DataTemplate pages:MyAppointmentsPage}" />
-    <ShellContent Title="Profil" Route="patient-profile" ContentTemplate="{DataTemplate pages:PatientProfilePage}" />
+    <ShellContent Title="Accueil" Icon="tab_home" Route="patient-home" ContentTemplate="{DataTemplate pages:PatientHomePage}" />
+    <ShellContent Title="Carte" Icon="tab_map" Route="patient-map" ContentTemplate="{DataTemplate pages:DonorMapPage}" />
+    <ShellContent Title="Campagnes" Icon="tab_campaign" Route="patient-campaigns" ContentTemplate="{DataTemplate shared:CampaignsPage}" />
+    <ShellContent Title="Actualités" Icon="tab_news" Route="patient-news" ContentTemplate="{DataTemplate shared:NotificationsPage}" />
+    <ShellContent Title="Profil" Icon="tab_profile" Route="patient-profile" ContentTemplate="{DataTemplate pages:PatientProfilePage}" />
   </TabBar>
 
 </Shell>

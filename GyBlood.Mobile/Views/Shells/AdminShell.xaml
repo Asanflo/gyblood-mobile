@@ -4,17 +4,18 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:GyBlood.Mobile.Views.Admin"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Primary}"
-       Shell.ForegroundColor="{StaticResource White}"
-       Shell.TitleColor="{StaticResource White}"
+       Shell.BackgroundColor="{StaticResource White}"
+       Shell.ForegroundColor="{StaticResource Primary}"
+       Shell.TitleColor="{StaticResource Gray900}"
        Shell.TabBarBackgroundColor="{StaticResource White}"
        Shell.TabBarForegroundColor="{StaticResource Primary}"
        Shell.TabBarTitleColor="{StaticResource Primary}"
        Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
+  <!-- Onglets : les icônes (Icon="...") seront ajoutées une fois les images prêtes. -->
   <TabBar>
-    <ShellContent Title="À valider" Route="admin-pending" ContentTemplate="{DataTemplate pages:PendingAccountsPage}" />
-    <ShellContent Title="Paramètres" Route="admin-settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
+    <ShellContent Title="Comptes" Icon="tab_accounts" Route="admin-pending" ContentTemplate="{DataTemplate pages:PendingAccountsPage}" />
+    <ShellContent Title="Paramètres" Icon="tab_settings" Route="admin-settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
   </TabBar>
 
 </Shell>
