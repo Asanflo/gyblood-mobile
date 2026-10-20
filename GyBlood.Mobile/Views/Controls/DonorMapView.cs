@@ -44,6 +44,10 @@ public sealed class DonorMapView : ContentView
         _mapControl.Map.Navigator.CenterOnAndZoomTo(new MPoint(x, y), metersPerPixel);
     }
 
+    public void ZoomIn() => _mapControl.Map.Navigator.ZoomIn();
+
+    public void ZoomOut() => _mapControl.Map.Navigator.ZoomOut();
+
     /// <summary>Affiche la position du patient (point bleu).</summary>
     public void SetMyPosition(double latitude, double longitude)
     {

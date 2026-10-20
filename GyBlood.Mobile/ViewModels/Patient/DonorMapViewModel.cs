@@ -51,6 +51,21 @@ public partial class DonorMapViewModel : BaseViewModel
         Title = "Demander du sang";
     }
 
+    [RelayCommand]
+    private Task LocateAsync() => RunAsync(async () =>
+    {
+        var point = await _location.GetCurrentAsync();
+        if (point is null)
+        {
+            ErrorMessage = "Position indisponible. Activez la localisation de l'appareil.";
+            return;
+        }
+
+        ErrorMessage = null;
+        Center = null;   // force le signal de changement, même si la position est identique
+        Center = point;
+    });
+
     public ObservableCollection<DonorItem> Donors { get; } = [];
 
     public IReadOnlyList<string> GroupChoices => Ui.BloodGroupLabels;
@@ -71,6 +86,16 @@ public partial class DonorMapViewModel : BaseViewModel
                 SelectedRhesus = Ui.RhesusLabel(patient.Rhesus) is { Length: > 0 } r ? r : null;
                 _profileLoaded = true;
             });
+        }
+
+        // Montre tout de suite la position du patient, même avant d'avoir choisi un groupe.
+        if (Center is null)
+        {
+            var current = await _location.GetCurrentAsync();
+            if (current is not null)
+            {
+                Center = current;
+            }
         }
 
         if (Ui.ParseGroup(SelectedGroup) is not null && Ui.ParseRhesus(SelectedRhesus) is not null)

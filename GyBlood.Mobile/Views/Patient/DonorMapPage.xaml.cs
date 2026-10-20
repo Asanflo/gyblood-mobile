@@ -9,6 +9,10 @@ public partial class DonorMapPage : ContentPage
 {
     private readonly DonorMapViewModel _viewModel;
 
+    private void OnZoomInClicked(object? sender, EventArgs e) => Map.ZoomIn();
+
+    private void OnZoomOutClicked(object? sender, EventArgs e) => Map.ZoomOut();
+
     public DonorMapPage(DonorMapViewModel viewModel)
     {
         InitializeComponent();
@@ -42,10 +46,13 @@ public partial class DonorMapPage : ContentPage
             d.Dto.Id, d.Dto.Latitude, d.Dto.Longitude, d.BloodText)));
     }
 
-    /// <summary>Toucher sur un marqueur : ouvre la fiche du donneur.</summary>
+    /// <summary>Toucher sur un marqueur : amène la fiche du donneur dans le carrousel.</summary>
     private void OnDonorTapped(object? sender, long donorId)
     {
         var item = _viewModel.Donors.FirstOrDefault(d => d.Dto.Id == donorId);
-        item?.OpenCommand?.Execute(null);
+        if (item is not null)
+        {
+            DonorList.ScrollTo(item, position: ScrollToPosition.Center, animate: true);
+        }
     }
 }
