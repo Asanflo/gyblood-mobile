@@ -10,12 +10,24 @@
       <TapGestureRecognizer Command="{Binding OpenCommand}" />
     </Border.GestureRecognizers>
     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-      <BoxView Grid.Column="0" WidthRequest="10" HeightRequest="10" CornerRadius="5" VerticalOptions="Start" Margin="0,5,0,0"
-               Color="{StaticResource Primary}" IsVisible="{Binding IsUnread}" />
-      <VerticalStackLayout Grid.Column="1" Spacing="3">
-        <Label Text="{Binding Title}" FontAttributes="Bold" />
-        <Label Text="{Binding Message}" Style="{StaticResource Subtitle}" />
-        <Label Text="{Binding DateText}" Style="{StaticResource Caption}" />
+
+      <!-- Cloche + pastille rouge si non lue -->
+      <Grid VerticalOptions="Start" WidthRequest="48" HeightRequest="48">
+        <Border WidthRequest="44" HeightRequest="44" HorizontalOptions="Start" VerticalOptions="End"
+                BackgroundColor="{StaticResource PrimaryLight}" StrokeThickness="0" StrokeShape="RoundRectangle 22">
+          <Image Source="card_bell" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Border>
+        <BoxView WidthRequest="12" HeightRequest="12" CornerRadius="6" HorizontalOptions="End" VerticalOptions="Start"
+                 Color="{StaticResource Primary}" IsVisible="{Binding IsUnread}" />
+      </Grid>
+
+      <VerticalStackLayout Grid.Column="1" Spacing="4">
+        <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="15" />
+        <Label Text="{Binding Message}" Style="{StaticResource Subtitle}" MaxLines="3" LineBreakMode="TailTruncation" />
+        <HorizontalStackLayout Spacing="6" Margin="0,2,0,0">
+          <Image Source="card_clock" WidthRequest="13" HeightRequest="13" VerticalOptions="Center" />
+          <Label Text="{Binding DateText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+        </HorizontalStackLayout>
       </VerticalStackLayout>
     </Grid>
   </Border>

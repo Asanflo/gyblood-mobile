@@ -65,6 +65,7 @@ public static class ApiRoutes
         public const string Root = "/campaigns";
         public const string ById = "/campaigns/{id}";
         public const string Join = "/campaigns/{id}/join";
+        public const string Image = "/campaigns/{id}/image";
         public const string Fundings = "/campaigns/{id}/fundings";
     }
 

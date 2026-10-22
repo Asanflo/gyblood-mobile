@@ -15,7 +15,7 @@ public partial class CampaignEditorViewModel : BaseViewModel
     private readonly INavigationService _navigation;
     private readonly IDialogService _dialogs;
 
-    // Image choisie : conservée en mémoire, prête à être envoyée quand l'API le permettra.
+    // Image choisie : conservée en mémoire, envoyée juste après la création de la campagne.
     private byte[]? _imageBytes;
     private string? _imageFileName;
     private string? _imageContentType;
@@ -128,7 +128,7 @@ public partial class CampaignEditorViewModel : BaseViewModel
         await RunAsync(async () =>
         {
             var description = string.IsNullOrWhiteSpace(Description) ? null : Description.Trim();
-            await _api.CreateAsync(new CreateCampaignRequest(
+            var created = await _api.CreateAsync(new CreateCampaignRequest(
                 CampaignTitle.Trim(),
                 Location.Trim(),
                 new DateTimeOffset(StartDate.Date),
@@ -136,8 +136,27 @@ public partial class CampaignEditorViewModel : BaseViewModel
                 target,
                 description));
 
-            // TODO (API) : envoyer _imageBytes / _imageFileName / _imageContentType quand l'API acceptera une image de campagne.
-            await _dialogs.ToastAsync("Campagne publiée");
+            // La campagne existe déjà : si l'envoi de l'image échoue, on prévient sans tout annuler.
+            var imageFailed = false;
+            if (_imageBytes is { Length: > 0 })
+            {
+                try
+                {
+                    var name = string.IsNullOrWhiteSpace(_imageFileName) ? "affiche.jpg" : _imageFileName;
+                    var type = string.IsNullOrWhiteSpace(_imageContentType) ? "image/jpeg" : _imageContentType;
+                    await _api.UploadImageAsync(
+                        created.Id,
+                        new Refit.StreamPart(new MemoryStream(_imageBytes), name, type));
+                }
+                catch (Exception)
+                {
+                    imageFailed = true;
+                }
+            }
+
+            await _dialogs.ToastAsync(imageFailed
+                ? "Campagne publiée, mais l'image n'a pas pu être envoyée"
+                : "Campagne publiée");
             await _navigation.GoBackAsync();
         });
     }

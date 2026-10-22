@@ -1,3 +1,4 @@
+using GyBlood.Mobile.Models.Responses;
 using GyBlood.Mobile.Services.Auth;
 using GyBlood.Mobile.Services.Navigation;
 using GyBlood.Mobile.ViewModels.Base;
@@ -17,7 +18,17 @@ public partial class StartupViewModel : BaseViewModel
 
     public override async Task OnAppearingAsync()
     {
-        var user = await _auth.RestoreSessionAsync();
+        UserDto? user = null;
+        try
+        {
+            user = await _auth.RestoreSessionAsync();
+        }
+        catch (Exception ex)
+        {
+            // Jeton périmé (401) ou serveur injoignable : on revient à l'accueil au lieu de planter.
+            System.Diagnostics.Debug.WriteLine($"[Startup] Restauration de session impossible : {ex}");
+        }
+
         await _navigation.ShowRoleShellAsync(user);
     }
 }

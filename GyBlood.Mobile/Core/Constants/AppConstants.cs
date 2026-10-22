@@ -3,7 +3,7 @@ namespace GyBlood.Mobile.Core.Constants;
 public static class AppConstants
 {
     /// <summary>10.0.2.2 = le localhost de votre PC vu depuis l'émulateur Android. Sur un vrai téléphone : l'IP du PC ou l'URL déployée.</summary>
-    public const string ApiBaseUrl = "http://10.0.2.2:8080/api/v1/";
+    public const string ApiBaseUrl = "http://10.0.2.2:8080/api/v1";
 
     /// <summary>Point d'entrée OAuth côté backend FastAPI : /oauth2/authorization/google?code_challenge=...&amp;role=...</summary>
     public const string GoogleAuthUrl = "http://10.0.2.2:8080/oauth2/authorization/google";

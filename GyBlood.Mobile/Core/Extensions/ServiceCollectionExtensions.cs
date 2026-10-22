@@ -18,11 +18,8 @@ public static class ServiceCollectionExtensions
     {
         var settings = RefitSettingsFactory.Create();
 
-        services.AddTransient<DemoHandler>();
-
         services.AddTransient<AuthHeaderHandler>();
-        services.AddRefitClient<IAuthApi>(settings).ConfigureHttpClient(Configure)
-            .ConfigurePrimaryHttpMessageHandler<DemoHandler>();
+        services.AddRefitClient<IAuthApi>(settings).ConfigureHttpClient(Configure);
         services.AddAuthorizedClient<IMeApi>(settings);
         services.AddAuthorizedClient<IPatientApi>(settings);
         services.AddAuthorizedClient<IDonorApi>(settings);
@@ -145,8 +142,7 @@ public static class ServiceCollectionExtensions
         where T : class
         => services.AddRefitClient<T>(settings)
             .ConfigureHttpClient(Configure)
-            .AddHttpMessageHandler<AuthHeaderHandler>()
-            .ConfigurePrimaryHttpMessageHandler<DemoHandler>();
+            .AddHttpMessageHandler<AuthHeaderHandler>();
 
     private static void Configure(HttpClient client)
     {

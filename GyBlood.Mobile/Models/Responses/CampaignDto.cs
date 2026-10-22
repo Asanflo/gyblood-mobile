@@ -11,4 +11,5 @@ public sealed record CampaignDto(
     int TargetDonations,
     decimal FundsReceived,
     bool Joined,
-    string? Description);
+    string? Description,
+    string? ImageUrl = null);

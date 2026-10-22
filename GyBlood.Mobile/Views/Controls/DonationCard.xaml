@@ -6,11 +6,31 @@
              x:Class="GyBlood.Mobile.Views.Controls.DonationCard"
              x:DataType="items:DonationItem">
   <Border Style="{StaticResource Card}">
-    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="3" ColumnSpacing="8">
-      <Label Grid.Row="0" Text="Don de sang" FontAttributes="Bold" />
-      <Image Grid.Row="0" Grid.Column="1" Source="icon_check" WidthRequest="22" HeightRequest="22" />
-      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding StructureName}" Style="{StaticResource Subtitle}" />
-      <Label Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding DateText}" Style="{StaticResource Caption}" />
+    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+      <Border WidthRequest="44" HeightRequest="44" VerticalOptions="Start"
+              BackgroundColor="{StaticResource PrimaryLight}" StrokeThickness="0" StrokeShape="RoundRectangle 22">
+        <Image Source="camp_drop" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+      </Border>
+
+      <VerticalStackLayout Grid.Column="1" Spacing="5" VerticalOptions="Center">
+        <Label Text="Don de sang" FontAttributes="Bold" FontSize="16" />
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+          <Image Source="camp_hospital" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+          <Label Grid.Column="1" Text="{Binding StructureName}" Style="{StaticResource Subtitle}" LineBreakMode="TailTruncation" MaxLines="1" />
+        </Grid>
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+          <Image Source="camp_calendar" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+          <Label Grid.Column="1" Text="{Binding DateText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+        </Grid>
+      </VerticalStackLayout>
+
+      <VerticalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End">
+        <Image Source="icon_check" WidthRequest="22" HeightRequest="22" HorizontalOptions="End" />
+        <Border BackgroundColor="{StaticResource SuccessLight}" StrokeThickness="0" Padding="8,3"
+                StrokeShape="RoundRectangle 10" HorizontalOptions="End" IsVisible="{Binding HasVolume}">
+          <Label Text="{Binding VolumeText}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Success}" />
+        </Border>
+      </VerticalStackLayout>
     </Grid>
   </Border>
 </ContentView>

@@ -27,6 +27,7 @@ public sealed class AppointmentItem
     public bool HasPrimary => !string.IsNullOrEmpty(PrimaryText);
     public bool HasSecondary => !string.IsNullOrEmpty(SecondaryText);
     public bool HasActions => HasPrimary || HasSecondary;
+    
 }
 
 public sealed class CampaignItem
@@ -40,6 +41,8 @@ public sealed class CampaignItem
     public string FundsText { get; init; } = string.Empty;
     public bool IsJoined { get; init; }
     public ICommand? OpenCommand { get; init; }
+    public string? ImageUrl => Dto.ImageUrl;
+    public bool HasImage => !string.IsNullOrEmpty(Dto.ImageUrl);
 }
 
 public sealed class StockItem

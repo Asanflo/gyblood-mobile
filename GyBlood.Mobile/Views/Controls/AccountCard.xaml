@@ -9,19 +9,36 @@
     <Border.GestureRecognizers>
       <TapGestureRecognizer Command="{Binding OpenCommand}" />
     </Border.GestureRecognizers>
-    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="3" ColumnSpacing="8">
-      <Label Grid.Row="0" Text="{Binding Name}" FontAttributes="Bold" />
-      <controls:StatusChip Grid.Row="0" Grid.Column="1" Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" />
-      <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Email}" Style="{StaticResource Subtitle}" />
-      <Label Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource Caption}">
-        <Label.FormattedText>
-          <FormattedString>
-            <Span Text="{Binding RoleText}" />
-            <Span Text=" · " />
-            <Span Text="{Binding DateText}" />
-          </FormattedString>
-        </Label.FormattedText>
-      </Label>
+    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+      <Border WidthRequest="44" HeightRequest="44" VerticalOptions="Start"
+              BackgroundColor="{StaticResource PrimaryLight}" StrokeThickness="0" StrokeShape="RoundRectangle 22">
+        <Image Source="card_user" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+      </Border>
+
+      <VerticalStackLayout Grid.Column="1" Spacing="6">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+          <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" LineBreakMode="TailTruncation" MaxLines="1" VerticalOptions="Center" />
+          <controls:StatusChip Grid.Column="1" Text="{Binding StatusText}" ChipColor="{Binding StatusColor}" VerticalOptions="Center" />
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+          <Image Source="card_mail" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+          <Label Grid.Column="1" Text="{Binding Email}" Style="{StaticResource Subtitle}" LineBreakMode="TailTruncation" MaxLines="1" />
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="6">
+          <Image Source="camp_calendar" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+          <Label Grid.Column="1" Style="{StaticResource Caption}" VerticalOptions="Center">
+            <Label.FormattedText>
+              <FormattedString>
+                <Span Text="{Binding RoleText}" FontAttributes="Bold" />
+                <Span Text=" · " />
+                <Span Text="{Binding DateText}" />
+              </FormattedString>
+            </Label.FormattedText>
+          </Label>
+        </Grid>
+      </VerticalStackLayout>
     </Grid>
   </Border>
 </ContentView>

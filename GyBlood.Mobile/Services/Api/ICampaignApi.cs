@@ -20,4 +20,8 @@ public interface ICampaignApi
 
     [Delete(ApiRoutes.Campaigns.Join)]
     Task LeaveAsync(EntityId id);
+
+    [Multipart]
+    [Post(ApiRoutes.Campaigns.Image)]
+    Task<CampaignDto> UploadImageAsync(EntityId id, [AliasAs("file")] StreamPart file);
 }
